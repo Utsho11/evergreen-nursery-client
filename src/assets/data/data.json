@@ -1,0 +1,122 @@
+[
+  {
+    "image": "https://example.com/images/ficus_lyrata.jpg",
+    "title": "Ficus Lyrata",
+    "description": "The Fiddle Leaf Fig is a popular indoor plant with large, heavily veined, violin-shaped leaves.",
+    "price": 49.99,
+    "rating": 4.5,
+    "category": "Indoor",
+    "email": "info@plantnursery.com",
+    "quantity": 20
+  },
+  {
+    "image": "https://example.com/images/monstera_deliciosa.jpg",
+    "title": "Monstera Deliciosa",
+    "description": "The Swiss Cheese Plant has unique, perforated leaves and thrives in bright, indirect light.",
+    "price": 39.99,
+    "rating": 4.7,
+    "category": "Indoor",
+    "email": "info@plantnursery.com",
+    "quantity": 15
+  },
+  {
+    "image": "https://example.com/images/roses.jpg",
+    "title": "Roses",
+    "description": "Classic garden roses, known for their beauty and fragrance, perfect for any garden.",
+    "price": 29.99,
+    "rating": 4.8,
+    "category": "Outdoor",
+    "email": "info@plantnursery.com",
+    "quantity": 50
+  },
+  {
+    "image": "https://example.com/images/lavender.jpg",
+    "title": "Lavender",
+    "description": "Lavender is an aromatic herb known for its calming scent and beautiful purple flowers.",
+    "price": 19.99,
+    "rating": 4.6,
+    "category": "Outdoor",
+    "email": "info@plantnursery.com",
+    "quantity": 30
+  },
+  {
+    "image": "https://example.com/images/succulent.jpg",
+    "title": "Succulent Mix",
+    "description": "A variety of small, low-maintenance succulents perfect for decorating your home or office.",
+    "price": 24.99,
+    "rating": 4.4,
+    "category": "Succulent",
+    "email": "info@plantnursery.com",
+    "quantity": 40
+  },
+  {
+    "image": "https://example.com/images/aloe_vera.jpg",
+    "title": "Aloe Vera",
+    "description": "Aloe Vera is a succulent plant known for its medicinal properties and easy care.",
+    "price": 14.99,
+    "rating": 4.7,
+    "category": "Succulent",
+    "email": "info@plantnursery.com",
+    "quantity": 35
+  },
+  {
+    "image": "https://example.com/images/herbs.jpg",
+    "title": "Herb Collection",
+    "description": "A collection of popular culinary herbs including basil, parsley, and cilantro.",
+    "price": 34.99,
+    "rating": 4.9,
+    "category": "Herbs",
+    "email": "info@plantnursery.com",
+    "quantity": 25
+  },
+  {
+    "image": "https://example.com/images/mint.jpg",
+    "title": "Mint",
+    "description": "Mint is a refreshing herb that's perfect for teas, cooking, and garnishing dishes.",
+    "price": 9.99,
+    "rating": 4.5,
+    "category": "Herbs",
+    "email": "info@plantnursery.com",
+    "quantity": 60
+  },
+  {
+    "image": "https://example.com/images/orchid.jpg",
+    "title": "Phalaenopsis Orchid",
+    "description": "This orchid is known for its beautiful and long-lasting flowers, perfect for indoor décor.",
+    "price": 59.99,
+    "rating": 4.8,
+    "category": "Flowers",
+    "email": "info@plantnursery.com",
+    "quantity": 10
+  },
+  {
+    "image": "https://example.com/images/tulips.jpg",
+    "title": "Tulips",
+    "description": "A vibrant collection of tulips available in various colors, ideal for garden planting.",
+    "price": 24.99,
+    "rating": 4.6,
+    "category": "Flowers",
+    "email": "info@plantnursery.com",
+    "quantity": 45
+  },
+  {
+    "image": "https://example.com/images/bamboo.jpg",
+    "title": "Lucky Bamboo",
+    "description": "Lucky Bamboo is believed to bring good luck and is easy to grow in water or soil.",
+    "price": 12.99,
+    "rating": 4.3,
+    "category": "Foliage",
+    "email": "info@plantnursery.com",
+    "quantity": 50
+  },
+  {
+    "image": "https://example.com/images/ferns.jpg",
+    "title": "Boston Fern",
+    "description": "Boston Fern is a popular houseplant with lush, arching fronds, perfect for hanging baskets.",
+    "price": 22.99,
+    "rating": 4.6,
+    "category": "Foliage",
+    "email": "info@plantnursery.com",
+    "quantity": 20
+  }
+]

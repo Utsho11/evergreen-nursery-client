@@ -1,0 +1,150 @@
+import ShopSideBar from "@/components/shared/ShopSideBar";
+import {
+  Plant,
+  useGetPlantsQuery,
+  useGetPlantsWithoutPageQuery,
+} from "@/redux/features/plantApi";
+import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import PlantCard from "@/components/shared/PlantCard";
+import { useParams } from "react-router-dom";
+
+const ShopPage = () => {
+  let newPlants: Plant[] = [];
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
+  const { name: category } = useParams();
+  const sort = "price"; // Default sort field
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  // Fetch the data with page and pageSize parameters
+  // const {
+  //   data: { result: plants = [], totalCount = 0 } = {},
+  //   error,
+  //   isLoading,
+  // } = useGetPlantsQuery({ page, pageSize });
+
+  const {
+    data: { result: plants = [], totalCount = 0 } = {},
+    error,
+    isLoading,
+  } = useGetPlantsQuery({
+    page,
+    pageSize,
+    sort,
+    sortOrder: sortOrder as "asc" | "desc",
+  });
+
+  const { data } = useGetPlantsWithoutPageQuery();
+
+  if (category) {
+    newPlants = data!.filter((item) => item.category === category);
+    newPlants = newPlants.sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a[sort] > b[sort] ? 1 : -1;
+      } else {
+        return a[sort] < b[sort] ? 1 : -1;
+      }
+    });
+  } else {
+    newPlants = plants;
+  }
+
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.toString()}</div>;
+
+  return (
+    <div className="container mx-auto my-32">
+      <div className="grid grid-cols-10 gap-10">
+        <div className="col-span-2">
+          <ShopSideBar
+            category={category ?? null}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
+        </div>
+        <div className="col-span-8">
+          <div className="grid gap-y-5 grid-cols-3 gap-14 p-2">
+            {newPlants?.map((plant, index) => (
+              <PlantCard key={index} plant={plant} />
+            ))}
+          </div>
+          {category ? (
+            " "
+          ) : (
+            <Pagination className="my-4">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (page > 1) setPage((prev) => prev - 1); // Go to previous page
+                    }}
+                  />
+                </PaginationItem>
+
+                {page > 1 && (
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPage(page - 1); // Go to previous page
+                      }}
+                    >
+                      {page - 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+                {page > 2 && <PaginationEllipsis />}
+                <PaginationItem>
+                  <PaginationLink href="#" isActive>
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+                {page < totalPages - 1 && <PaginationEllipsis />}
+                {page < totalPages && (
+                  <PaginationItem>
+                    <PaginationLink
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setPage(page + 1); // Go to next page
+                      }}
+                    >
+                      {page + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
+                {page < totalPages && (
+                  <PaginationItem>
+                    <PaginationNext
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (page < totalPages) setPage((prev) => prev + 1); // Go to next page
+                      }}
+                    />
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShopPage;
