@@ -25,18 +25,6 @@ const PlantByCategory = () => {
     },
   };
 
-  if (plantsLoading || categoriesLoading || !categories || !plants) {
-    return (
-      <div className="flex justify-center items-center my-32">
-        <Lottie options={defaultOptions} height={400} width={400} />
-      </div>
-    );
-  }
-
-  if (!plants || !categories) {
-    return <div>No data available</div>;
-  }
-
   const getUniqueCategoryItems = (plants: Plant[], _categories: Category[]) => {
     const categoryMap = new Map();
 
@@ -48,6 +36,18 @@ const PlantByCategory = () => {
 
     return Array.from(categoryMap.values());
   };
+
+  if (plantsLoading || categoriesLoading || !categories) {
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
+  }
+
+  if (!plants || !categories) {
+    return <div>No data available</div>;
+  }
 
   const uniqueCategoryItems = getUniqueCategoryItems(plants, categories);
 
