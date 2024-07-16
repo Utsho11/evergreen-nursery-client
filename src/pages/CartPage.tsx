@@ -20,6 +20,8 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { NavLink } from "react-router-dom";
 
+
+
 const CartPage = () => {
   const { items, total } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
@@ -41,6 +43,9 @@ const CartPage = () => {
     dispatch(decreaseQuantity({ productId: id, quantity: 1 }));
   };
 
+
+
+  
   return (
     <div className="">
       <div

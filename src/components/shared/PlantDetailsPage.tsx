@@ -1,15 +1,56 @@
 import { useGetPlantByIdQuery } from "@/redux/features/plantApi";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import LargeStar from "../ui/LargeStar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "../ui/button";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
+import { useAppDispatch } from "@/redux/hooks";
+import { addCart } from "@/redux/features/cartSlice";
 
 const PlantDetailsPage = () => {
   const { id } = useParams();
 
   const { data: plant, error, isLoading } = useGetPlantByIdQuery(id as string);
 
-  if (isLoading) return <div>Loading...</div>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const dispatch = useAppDispatch();
+
+  if (!plant) {
+    return <div>No data available</div>;
+  }
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
+
+  const handleAddToCart = () => {
+    if (plant.quantity > 0) {
+      dispatch(
+        addCart({
+          productId: plant._id as string,
+          name: plant.title,
+          image: plant.image,
+          quantity: 1,
+          price: plant.price,
+          availableQuantity: plant.quantity,
+        })
+      );
+    } else {
+      console.error("This plant is out of stock.");
+    }
+  };
+
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (
@@ -73,12 +114,17 @@ const PlantDetailsPage = () => {
             </div>
           </div>
           <div className="flex gap-10 mt-auto">
-            <Button className="bg-[#81ba00] text-white rounded-full text-sm font-medium px-8">
+            <Button
+              onClick={handleAddToCart}
+              className="bg-[#81ba00] text-white rounded-full text-sm font-medium px-8"
+            >
               Add to Cart
             </Button>
-            <Button className="hover:bg-[#81ba00] bg-transparent border border-slate-500 hover:text-white rounded-full text-sm font-medium px-8">
-              Buy Now
-            </Button>
+            <NavLink to="/cart">
+              <Button className="hover:bg-[#81ba00] bg-transparent border border-slate-500 hover:text-white rounded-full text-sm font-medium px-8">
+                Buy Now
+              </Button>
+            </NavLink>
           </div>
         </div>
       </div>

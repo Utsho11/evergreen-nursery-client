@@ -2,9 +2,32 @@ import { useGetPlantsWithoutPageQuery } from "@/redux/features/plantApi";
 import PlantCard from "../shared/PlantCard";
 import { Button } from "../ui/button";
 import { NavLink } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const ProductListSection = () => {
-  const { data: plants } = useGetPlantsWithoutPageQuery();
+  const { data: plants, isLoading } = useGetPlantsWithoutPageQuery();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  if (isLoading || !plants) {
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
+  }
+
+  if (!plants) {
+    <div className="text-center">No data found</div>;
+  }
   return (
     <div className="container mb-32">
       <div>

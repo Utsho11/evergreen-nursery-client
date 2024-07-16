@@ -7,6 +7,8 @@ import {
 } from "@/redux/features/plantApi";
 import { Button } from "../ui/button";
 import { NavLink } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const PlantByCategory = () => {
   const { data: plants, isLoading: plantsLoading } =
@@ -14,8 +16,21 @@ const PlantByCategory = () => {
   const { data: categories, isLoading: categoriesLoading } =
     useGetCategoriesQuery();
 
-  if (plantsLoading || categoriesLoading) {
-    return <div>Loading...</div>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  if (plantsLoading || categoriesLoading || !categories || !plants) {
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
   }
 
   if (!plants || !categories) {

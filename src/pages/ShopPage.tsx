@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/pagination";
 import PlantCard from "@/components/shared/PlantCard";
 import { useParams } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const ShopPage = () => {
   let newPlants: Plant[] = [];
@@ -60,7 +62,23 @@ const ShopPage = () => {
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  if (isLoading) return <div>Loading...</div>;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  if (isLoading || !plants) {
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
+  }
+
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (

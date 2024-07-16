@@ -26,6 +26,8 @@ import DeleteIcon from "@/assets/icons/DeleteIcon";
 import { useToast } from "@/components/ui/use-toast";
 import { NavLink } from "react-router-dom";
 import EyeIcon from "@/assets/icons/EyeIcon";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const ProductManagementPage = () => {
   const [page, setPage] = useState(1);
@@ -52,8 +54,22 @@ const ProductManagementPage = () => {
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(totalCount / pageSize);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !plants) {
+    return (
+      <div className="flex justify-center items-center my-32">
+        <Lottie options={defaultOptions} height={400} width={400} />
+      </div>
+    );
+  }
   if (error) return <div>Error: {error.toString()}</div>;
 
   return (

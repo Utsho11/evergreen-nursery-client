@@ -17,8 +17,6 @@ interface IFormInput {
 
 const image_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD_TOKEN;
 
-console.log(image_hosting_token);
-
 const InsertProduct = () => {
   const {
     register,
