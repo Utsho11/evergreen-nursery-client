@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import formBg from "@/assets/formbg.jpg";
-import { usePostPlantsMutation } from "@/redux/features/plantApi";
+import {
+  useGetCategoriesQuery,
+  usePostPlantsMutation,
+} from "@/redux/features/plantApi";
 import { useToast } from "@/components/ui/use-toast";
 
 interface IFormInput {
@@ -29,6 +32,8 @@ const InsertProduct = () => {
 
   const [postPlant] = usePostPlantsMutation();
   const img_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
+
+  const { data: categories } = useGetCategoriesQuery();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const formData = new FormData();
@@ -115,14 +120,18 @@ const InsertProduct = () => {
                 <label htmlFor="category" className="text-lg font-bold">
                   Category:
                 </label>
-                <input
-                  size={20}
+                <select
                   className="p-2 border border-gray-300 rounded col-span-5 text-black focus:outline-none focus:ring-2 focus:ring-[#81ba00]"
-                  type="text"
                   {...register("category", {
                     required: "Category is required",
                   })}
-                />
+                >
+                  {categories?.map((category) => (
+                    <option key={category._id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="text-center">
                 {errors.category && (

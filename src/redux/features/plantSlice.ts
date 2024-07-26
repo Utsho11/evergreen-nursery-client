@@ -31,8 +31,6 @@ const plantSlice = createSlice({
       state.plant = state.plant.filter((plant) => plant._id !== action.payload);
     },
     updatePlant: (state, action: PayloadAction<TPlant>) => {
-      console.log(action.payload._id);
-
       const index = state.plant.findIndex(
         (plant) => plant._id === action.payload._id
       );

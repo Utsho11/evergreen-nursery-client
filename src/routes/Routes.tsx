@@ -9,6 +9,8 @@ import PlantDetailsPage from "@/components/shared/PlantDetailsPage";
 import UpdateProduct from "@/pages/UpdateProduct";
 import CartPage from "@/pages/CartPage";
 import PaymentPage from "@/pages/PaymentPage";
+import ManageCategory from "@/pages/ManageCategory";
+import OrderDetailsPage from "@/pages/OrderDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: "/payment",
         element: <PaymentPage />,
+      },
+      {
+        path: "/payment/order",
+        element: <OrderDetailsPage />,
+      },
+      {
+        path: "/category/addCategory",
+        element: <ManageCategory />,
       },
     ],
   },

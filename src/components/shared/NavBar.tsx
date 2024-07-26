@@ -110,6 +110,13 @@ const NavBar = () => {
                       <NavLink to="/insertProduct">Add Plant</NavLink>
                     </NavigationMenuLink>
                   </li>
+                  <li className="hover:text-[#81ba00]">
+                    <NavigationMenuLink asChild>
+                      <NavLink to="/category/addCategory">
+                        Manage Category
+                      </NavLink>
+                    </NavigationMenuLink>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>

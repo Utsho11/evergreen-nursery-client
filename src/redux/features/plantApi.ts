@@ -1,4 +1,5 @@
 import { baseApi } from "../api/baseApi";
+import { TCategory } from "./categorySlice";
 import { TPlant } from "./plantSlice";
 
 const extendedPlantsApi = baseApi.injectEndpoints({
@@ -26,6 +27,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
     getCategories: builder.query<Category[], void>({
       query: () => `categories`,
       transformResponse: (response: Category[]) => response,
+      providesTags: ["category"],
     }),
     getPlantsWithoutPage: builder.query<Plant[], void>({
       query: () => `products`,
@@ -40,12 +42,28 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       invalidatesTags: ["plant"],
       transformResponse: (response: Plant) => response,
     }),
+    postCategory: builder.mutation<Category, Partial<Category>>({
+      query: (newPlant) => ({
+        url: "addCategory",
+        method: "POST",
+        body: newPlant,
+      }),
+      invalidatesTags: ["category"],
+      transformResponse: (response: Category) => response,
+    }),
     deletePlant: builder.mutation({
       query: (id) => ({
         url: `/products/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["plant"],
+    }),
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["category"],
     }),
     updatePlant: builder.mutation<
       TPlant,
@@ -59,6 +77,18 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       invalidatesTags: ["plant"],
       transformResponse: (response: TPlant) => response,
     }),
+    updateCategory: builder.mutation<
+      TCategory,
+      { id: string; data: Partial<Omit<TCategory, "_id">> }
+    >({
+      query: ({ id, data }) => ({
+        url: `category/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["category"],
+    }),
+
     searchPlants: builder.query<TPlant[], { title: string }>({
       query: ({ title }) => `search?title=${encodeURIComponent(title)}`,
       transformResponse: (response: TPlant[]) => response,
@@ -76,6 +106,9 @@ export const {
   useDeletePlantMutation,
   useUpdatePlantMutation,
   useSearchPlantsQuery,
+  usePostCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
 } = extendedPlantsApi;
 
 // Define the Plant type
@@ -92,6 +125,6 @@ export interface Plant {
 }
 
 export interface Category {
-  _id: string; // or number, depending on your data model
+  _id?: string; // or number, depending on your data model
   name: string;
 }
