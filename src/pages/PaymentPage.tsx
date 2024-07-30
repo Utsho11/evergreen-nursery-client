@@ -7,16 +7,20 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { addCustomer } from "@/redux/features/customerSlice";
+import { useUpdatePlantQuantitiesMutation } from "@/redux/features/plantApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
-  const { total } = useAppSelector((state) => state.cart);
+  const { items, total } = useAppSelector((state) => state.cart);
+  console.log(items);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const [updatePlantQuantities] = useUpdatePlantQuantitiesMutation();
 
   const {
     register,
@@ -27,22 +31,32 @@ const PaymentPage = () => {
 
   const { toast } = useToast();
   // Define a function to handle form submission
-  const onSubmit = (data: any) => {
-    // Create an order object
 
-    // Dispatch the addOrder action
+  const onSubmit = async (data: any) => {
     dispatch(addCustomer(data));
 
-    toast({
-      title: "Order added successfully",
-      duration: 3000,
-      className: "bg-white text-green-500", //
-    });
+    try {
+      // Use RTK Query to update plant quantities
+      await updatePlantQuantities({ items }).unwrap();
+      toast({
+        title: "Order added successfully",
+        duration: 3000,
+        className: "bg-white text-green-500",
+      });
 
-    reset();
-
-    navigate("/payment/order");
+      reset();
+      navigate("/payment/order");
+    } catch (error) {
+      console.error("Failed to update quantities", error);
+      toast({
+        title: "Failed to update quantities",
+        duration: 3000,
+        className: "bg-white text-red-500",
+      });
+    }
   };
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   return (
     <div className="my-32 container mx-auto flex flex-col items-center text-center">
@@ -72,10 +86,16 @@ const PaymentPage = () => {
           </label>
         </div>
       </div>
-      <div className="">
+      <div className={`relative ${isPopoverOpen ? "popover-active" : ""}`}>
+        {isPopoverOpen && (
+          <div className="fixed inset-0 bg-black opacity-50 z-10"></div>
+        )}
         <Popover>
           <PopoverTrigger className="mt-8">
-            <Button className="bg-[#81ba00] text-white rounded-full text-sm font-medium px-8">
+            <Button
+              onClick={() => setIsPopoverOpen(true)}
+              className="bg-[#81ba00] text-white rounded-full text-sm font-medium px-8"
+            >
               Procceed to Pay
             </Button>
           </PopoverTrigger>

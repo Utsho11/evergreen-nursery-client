@@ -1,4 +1,5 @@
 import { baseApi } from "../api/baseApi";
+import { CartItem } from "./cartSlice";
 import { TCategory } from "./categorySlice";
 import { TPlant } from "./plantSlice";
 
@@ -33,6 +34,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       query: () => `products`,
       transformResponse: (response: Plant[]) => response,
     }),
+
     postPlants: builder.mutation<Plant, Partial<Plant>>({
       query: (newPlant) => ({
         url: "products",
@@ -42,6 +44,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       invalidatesTags: ["plant"],
       transformResponse: (response: Plant) => response,
     }),
+
     postCategory: builder.mutation<Category, Partial<Category>>({
       query: (newPlant) => ({
         url: "addCategory",
@@ -65,6 +68,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["category"],
     }),
+
     updatePlant: builder.mutation<
       TPlant,
       { id: string; updatedPlant: Partial<Omit<TPlant, "_id">> } // Ensure _id is not part of updatedPlant
@@ -77,6 +81,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       invalidatesTags: ["plant"],
       transformResponse: (response: TPlant) => response,
     }),
+
     updateCategory: builder.mutation<
       TCategory,
       { id: string; data: Partial<Omit<TCategory, "_id">> }
@@ -87,6 +92,16 @@ const extendedPlantsApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["category"],
+    }),
+
+    updatePlantQuantities: builder.mutation<TPlant, { items: CartItem[] }>({
+      query: (body) => ({
+        url: "update-quantities",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["plant"],
+      transformResponse: (response: Plant) => response,
     }),
 
     searchPlants: builder.query<TPlant[], { title: string }>({
@@ -109,6 +124,7 @@ export const {
   usePostCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
+  useUpdatePlantQuantitiesMutation,
 } = extendedPlantsApi;
 
 // Define the Plant type

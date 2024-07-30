@@ -23,16 +23,16 @@ const PlantDetailsPage = () => {
   };
   const dispatch = useAppDispatch();
 
-  if (!plant) {
-    return <div>No data available</div>;
-  }
-
   if (isLoading)
     return (
       <div className="flex justify-center items-center my-32">
         <Lottie options={defaultOptions} height={400} width={400} />
       </div>
     );
+
+  if (!plant) {
+    return <div>No data available</div>;
+  }
 
   const handleAddToCart = () => {
     if (plant.quantity > 0) {
