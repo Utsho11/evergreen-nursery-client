@@ -60,7 +60,9 @@ const PaymentPage = () => {
 
   return (
     <div className="my-32 container mx-auto flex flex-col items-center text-center">
-      <h1 className="text-3xl mb-16 font-medium">You have to Pay $ {total}</h1>
+      <h1 className="text-3xl mb-16 font-medium">
+        You have to Pay $ {total.toFixed(2)}
+      </h1>
       <div>
         <h1 className="font-semibold p-2 border-b-2 border-slate-600">
           Select a Payment Option
