@@ -47,18 +47,17 @@ const ManageCategory = () => {
   const [addCategory] = usePostCategoryMutation();
 
   const onSubmit: SubmitHandler<CategoryFormInput> = async (data) => {
-    console.log(data);
-
     try {
       const res = await addCategory(data).unwrap();
-      console.log(res);
 
-      toast({
-        title: "Category added successfully",
-        duration: 3000,
-        className: "bg-white text-green-500",
-      });
-      reset();
+      if (res) {
+        toast({
+          title: "Category added successfully",
+          duration: 3000,
+          className: "bg-white text-green-500",
+        });
+        reset();
+      }
     } catch (error) {
       toast({
         title: "Error adding category",
@@ -93,7 +92,7 @@ const ManageCategory = () => {
     if (id) {
       removeCategory(id);
       toast({
-        title: "Plant is deleted successfully.",
+        title: "Category is deleted successfully.",
         className: "bg-white text-green-500",
       });
     }

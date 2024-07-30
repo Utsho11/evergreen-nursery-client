@@ -63,7 +63,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
     }),
     deleteCategory: builder.mutation({
       query: (id) => ({
-        url: `/category/${id}`,
+        url: `/deleteCategory/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["category"],
@@ -87,7 +87,7 @@ const extendedPlantsApi = baseApi.injectEndpoints({
       { id: string; data: Partial<Omit<TCategory, "_id">> }
     >({
       query: ({ id, data }) => ({
-        url: `category/${id}`,
+        url: `updateCategory/${id}`,
         method: "PUT",
         body: data,
       }),

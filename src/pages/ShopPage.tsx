@@ -15,9 +15,10 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import PlantCard from "@/components/shared/PlantCard";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "@/assets/loader/Animation - 1721054166339.json";
+import { Button } from "@/components/ui/button";
 
 const ShopPage = () => {
   let newPlants: Plant[] = [];
@@ -92,11 +93,24 @@ const ShopPage = () => {
           />
         </div>
         <div className="col-span-8">
-          <div className="grid gap-y-5 grid-cols-3 gap-14 p-2">
-            {newPlants?.map((plant, index) => (
-              <PlantCard key={index} plant={plant} />
-            ))}
-          </div>
+          {newPlants.length > 0 ? (
+            <div className="grid gap-y-5 grid-cols-3 gap-14 p-2">
+              {newPlants?.map((plant, index) => (
+                <PlantCard key={index} plant={plant} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center space-y-3">
+              <h1 className="text-3xl font-semibold">
+                There is no Plants available for this Category.
+              </h1>
+              <NavLink to="/insertProduct">
+                <Button className="bg-[#81ba00] text-white rounded-full text-sm font-medium px-8">
+                  Insert Plants
+                </Button>
+              </NavLink>
+            </div>
+          )}
           {category ? (
             " "
           ) : (
