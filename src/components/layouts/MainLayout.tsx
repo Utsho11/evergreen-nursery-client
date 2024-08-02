@@ -11,9 +11,6 @@ const MainLayout = () => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      event.returnValue =
-        "You have unsaved changes, do you really want to leave?";
-      return event.returnValue;
     };
 
     const handleUnload = () => {
@@ -28,6 +25,7 @@ const MainLayout = () => {
       window.removeEventListener("unload", handleUnload);
     };
   }, [dispatch]);
+
   return (
     <div className="">
       <div className="sticky top-0 z-50 bg-[#1b1b1b] text-white">
