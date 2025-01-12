@@ -14,9 +14,9 @@ const Footer = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="p-32 bg-fixed"
+      className="p-16 sm:p-32 bg-fixed"
     >
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4">
         <div>
           <h1 className="font-semibold text-lg text-white">Policy & Info</h1>
           <hr className="border-2 border-[#81ba00] my-4 w-24" />

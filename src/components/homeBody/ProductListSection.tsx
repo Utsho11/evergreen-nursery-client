@@ -1,12 +1,12 @@
-import { useGetPlantsWithoutPageQuery } from "@/redux/features/plantApi";
 import PlantCard from "../shared/PlantCard";
 import { Button } from "../ui/button";
 import { NavLink } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "@/assets/loader/Animation - 1721054166339.json";
+import { useGetPlantsQuery } from "@/redux/services/plantApi";
 
 const ProductListSection = () => {
-  const { data: plants, isLoading } = useGetPlantsWithoutPageQuery();
+  const { data: plants, isLoading } = useGetPlantsQuery(null);
 
   const defaultOptions = {
     loop: true,
@@ -33,8 +33,8 @@ const ProductListSection = () => {
       <div>
         <h1 className="text-4xl font-medium pb-16 text-center">Plant Corner</h1>
       </div>
-      <div className="grid grid-cols-4 gap-8">
-        {plants?.slice(0, 8).map((plant, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {plants.data?.slice(0, 8).map((plant, index) => (
           <PlantCard key={index} plant={plant} />
         ))}
       </div>

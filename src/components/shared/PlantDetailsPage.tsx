@@ -1,4 +1,3 @@
-import { useGetPlantByIdQuery } from "@/redux/features/plantApi";
 import { NavLink, useParams } from "react-router-dom";
 import LargeStar from "../ui/LargeStar";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -7,11 +6,16 @@ import Lottie from "react-lottie";
 import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import { useAppDispatch } from "@/redux/hooks";
 import { addCart } from "@/redux/features/cartSlice";
+import { useGetSinglePlantQuery } from "@/redux/services/plantApi";
+import { useState } from "react";
 
 const PlantDetailsPage = () => {
   const { id } = useParams();
-
-  const { data: plant, error, isLoading } = useGetPlantByIdQuery(id as string);
+  const { data, error, isLoading } = useGetSinglePlantQuery(id as string);
+  const plant = data?.data;
+  const [currentImage, setCurrentImage] = useState<string>(
+    plant?.images[0] as string
+  );
 
   const defaultOptions = {
     loop: true,
@@ -35,13 +39,14 @@ const PlantDetailsPage = () => {
   }
 
   const handleAddToCart = () => {
-    if (plant.quantity > 0) {
+    if (plant?.quantity > 0) {
       dispatch(
         addCart({
           productId: plant._id as string,
           name: plant.title,
-          image: plant.image,
+          image: plant.images[0],
           quantity: 1,
+          discount: plant.discount,
           price: plant.price,
           availableQuantity: plant.quantity,
         })
@@ -51,50 +56,79 @@ const PlantDetailsPage = () => {
     }
   };
 
+  const handleImageChange = (image: string) => {
+    setCurrentImage(image);
+  };
+
   if (error) return <div>Error: {error.toString()}</div>;
 
+  console.log(plant);
+
   return (
-    <div className="container mx-auto my-32">
-      <div className="grid grid-cols-10 gap-16 h-full">
-        <div className="col-span-4">
-          <img src={plant?.image} alt={plant?.title} />
+    <div className="container mx-auto my-32 px-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-10 h-full">
+        {/* Image Section */}
+        <div className="sm:col-span-4 h-full">
+          <div className="w-full sm:h-[80%] flex justify-center items-center">
+            <img
+              src={currentImage}
+              alt={plant?.title}
+              className="object-cover rounded-xl w-full h-full"
+            />
+          </div>
+          <div className="mt-4 space-x-4 flex">
+            {plant?.images?.map((image: string, index: number) => (
+              <img
+                key={index}
+                src={image}
+                alt={`Image ${index}`}
+                className={`cursor-pointer w-24 h-24 object-cover rounded-xl border-2 ${
+                  image === currentImage ? "border-[#81BA00]" : ""
+                }`}
+                onClick={() => handleImageChange(image)}
+              />
+            ))}
+          </div>
         </div>
-        <div className="col-span-6 flex flex-col space-y-5 py-8">
+
+        {/* Plant Details */}
+        <div className="md:col-span-6 flex flex-col space-y-5 py-8">
           <div className="flex flex-col flex-grow space-y-5">
-            <h1 className="text-5xl font-medium">{plant?.title}</h1>
+            <h1 className="text-3xl sm:text-5xl font-medium">{plant?.title}</h1>
             <LargeStar stars={plant!.rating} />
             <h1 className="text-xl font-medium">Description:</h1>
-            <ScrollArea className="h-[200px] w-[500px] rounded-md py-2">
-              {plant?.description} Jokester began sneaking into the castle in
-              the middle of the night and leaving jokes all over the place:
-              under the king's pillow, in his soup, even in the royal toilet.
-              The king was furious, but he couldn't seem to stop Jokester. And
-              then, one day, the people of the kingdom discovered that the jokes
-              left by Jokester were so funny that they couldn't help but laugh.
-              And once they started laughing, they couldn't stop. Jokester began
-              sneaking into the castle in the middle of the night and leaving
-              jokes all over the place: under the king's pillow, in his soup,
-              even in the royal toilet. The king was furious, but he couldn't
-              seem to stop Jokester. And then, one day, the people of the
-              kingdom discovered that the jokes left by Jokester were so funny
-              that they couldn't help but laugh. And once they started laughing,
-              they couldn't stop.
+            <ScrollArea className="h-[200px] lg:w-full md:w-[500px] border rounded-md p-2">
+              {plant?.description}
             </ScrollArea>
             <div className="grid grid-cols-2">
               <h1 className="text-xl">
                 Category:{" "}
                 <span className="text-[#81ba00] font-semibold">
-                  {plant?.category}
+                  {plant?.category.name}
                 </span>
               </h1>
               <h1 className="text-xl">
                 Price:{" "}
-                <span className="text-[#81ba00] font-semibold">
-                  ${plant?.price}
-                </span>
+                {plant.discount ? (
+                  <span className="">
+                    <span className="text-gray-500 line-through mr-2">
+                      ${plant?.price}
+                    </span>
+                    <span className="text-[#81ba00] font-semibold">
+                      ${plant.price - plant.price * plant?.discount * 0.01}
+                    </span>
+                    <span className="text-sm text-red-500 ml-2">
+                      ({plant.discount}% OFF)
+                    </span>
+                  </span>
+                ) : (
+                  <span className="text-[#81ba00] font-semibold">
+                    ${plant?.price}
+                  </span>
+                )}
               </h1>
             </div>
-            <div className=" grid grid-cols-2">
+            <div className="grid grid-cols-2">
               <h1 className="text-xl">
                 Availability:{" "}
                 {plant!.quantity > 0 ? (
@@ -120,9 +154,9 @@ const PlantDetailsPage = () => {
             >
               Add to Cart
             </Button>
-            <NavLink to="/cart">
+            <NavLink to="/shop">
               <Button className="hover:bg-[#81ba00] bg-transparent border border-slate-500 hover:text-white rounded-full text-sm font-medium px-8">
-                Buy Now
+                Continue Shopping
               </Button>
             </NavLink>
           </div>

@@ -12,17 +12,42 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import {
   decreaseQuantity,
   increaseQuantity,
   removeCart,
 } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import banner from "@/assets/bg/footer-parallax.webp";
+import { useState } from "react";
+
+// Modal component for warning
+const WarningModal = ({
+  message,
+  onClose,
+}: {
+  message: string;
+  onClose: () => void;
+}) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded-lg w-1/3 text-center">
+      <h2 className="text-lg font-medium">{message}</h2>
+      <Button onClick={onClose} className="mt-4 bg-red-500 text-white">
+        Close
+      </Button>
+    </div>
+  </div>
+);
 
 const CartPage = () => {
   const { items, total } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const navigate = useNavigate();
+
+  const [showWarning, setShowWarning] = useState(false); // State for showing the warning modal
 
   // Handler to remove a cart item
   const deleteCart = (id: string) => {
@@ -41,11 +66,29 @@ const CartPage = () => {
     dispatch(decreaseQuantity({ productId: id, quantity: 1 }));
   };
 
+  // Handle checkout button click
+  const handleCheckout = () => {
+    console.log(user);
+
+    console.log(user?.role);
+
+    if (user?.role !== "CUSTOMER") {
+      setShowWarning(true); // Show the warning modal
+      return;
+    }
+    navigate("/payment"); // Proceed to payment if user is a customer
+  };
+
+  // Close the warning modal
+  const closeWarningModal = () => {
+    setShowWarning(false);
+  };
+
   return (
     <div className="">
       <div
         style={{
-          backgroundImage: `url("https://soilplant-codezeel.myshopify.com/cdn/shop/files/footer-parallax.jpg?v=1668839490")`,
+          backgroundImage: `url(${banner})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -53,7 +96,7 @@ const CartPage = () => {
       >
         <div className="w-full h-[200px] flex items-center justify-center">
           <h1 className="text-[2.875rem] text-white font-medium">
-            Your Shoping Cart
+            Your Shopping Cart
           </h1>
         </div>
       </div>
@@ -132,11 +175,12 @@ const CartPage = () => {
                 ${total.toFixed(2)}
               </TableCell>
               <TableCell className="flex justify-center items-center">
-                <NavLink to="/payment">
-                  <Button className="hover:bg-[#81ba00] border-2 border-slate-500 hover:text-white rounded-full text-sm font-medium text-center px-8">
-                    Check Out
-                  </Button>
-                </NavLink>
+                <Button
+                  className="hover:bg-[#81ba00] border-2 border-slate-500 hover:text-white rounded-full text-sm font-medium text-center px-8"
+                  onClick={handleCheckout}
+                >
+                  Check Out
+                </Button>
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -155,6 +199,13 @@ const CartPage = () => {
             </NavLink>
           </div>
         </div>
+      )}
+
+      {showWarning && (
+        <WarningModal
+          message="User must be a customer to checkout!"
+          onClose={closeWarningModal}
+        />
       )}
     </div>
   );

@@ -27,7 +27,8 @@ const data = [
   {
     image: serviceImg2,
     title: "Plant Pots",
-    description: "A variety of stylish pots for all your plants.",
+    description:
+      "A variety of stylish pots for all your plants. Customers can customize pots.",
   },
   {
     image: serviceImg3,

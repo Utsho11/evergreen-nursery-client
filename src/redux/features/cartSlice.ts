@@ -7,8 +7,8 @@ export interface CartItem {
   name: string;
   image: string;
   quantity: number;
-  price: number;
-  availableQuantity: number; // Track available stock
+  discount: number;
+  price: number; // Track available stock
 }
 
 // Define the initial state type
@@ -35,11 +35,19 @@ const cartSlice = createSlice({
         name: string;
         image: string;
         price: number;
+        discount: number;
         availableQuantity: number;
       }>
     ) => {
-      const { productId, quantity, name, image, price, availableQuantity } =
-        action.payload;
+      const {
+        productId,
+        quantity,
+        name,
+        image,
+        price,
+        discount,
+        availableQuantity,
+      } = action.payload;
 
       // Check if product is out of stock
       if (quantity > availableQuantity) {
@@ -47,6 +55,7 @@ const cartSlice = createSlice({
         return;
       }
 
+      const discountPrice = quantity * (price - price * discount * 0.01);
       // Find existing item
       const existingItem = state.items.find(
         (item) => item.productId === productId
@@ -68,8 +77,8 @@ const cartSlice = createSlice({
           name,
           image,
           quantity,
-          price,
-          availableQuantity,
+          discount,
+          price: discountPrice,
         });
       }
 

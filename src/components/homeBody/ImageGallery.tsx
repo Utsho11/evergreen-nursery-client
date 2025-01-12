@@ -1,6 +1,6 @@
 const ImageGallery = () => {
   return (
-    <div className=" mb-32 px-32 container mx-auto">
+    <div className="hidden sm:block my-24 container mx-auto">
       <div className="flex flex-col pb-16">
         <h1 className="mx-auto text-4xl font-medium">Plant Corner</h1>
         <hr className="mx-auto border-2 border-[#81ba00] my-4 w-32" />
