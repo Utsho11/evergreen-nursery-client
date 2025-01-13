@@ -3,17 +3,17 @@ import ENFileInput from "@/components/form/ENFileInput";
 import ENForm from "@/components/form/ENForm";
 import ENInput from "@/components/form/ENInput";
 import { useToast } from "@/components/ui/use-toast";
-import { useCreateCategoryMutation } from "@/redux/services/categoryApi";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
+import { useCreateCategoryMutation } from "@/redux/services/categoryApi";
 
 const CreateCategory = () => {
   const { toast } = useToast();
-  const [createCategory, { isLoading }] = useCreateCategoryMutation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
+  const [createCategory, { isLoading }] = useCreateCategoryMutation();
 
   const onsubmit = async (data: FieldValues) => {
     try {

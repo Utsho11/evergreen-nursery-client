@@ -15,8 +15,8 @@ interface ErrorData {
 }
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://amar-shop-server-one.vercel.app/api",
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://evergreen-nursery-server.vercel.app/api",
+  // baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -53,8 +53,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       // console.log("Sending refresh token");
 
       const res = await fetch(
-        "http://localhost:5000/api/auth/refresh-token",
-        // "https://amar-shop-server-one.vercel.app/api/auth/refresh-token",
+        // "http://localhost:5000/api/auth/refresh-token",
+        "https://evergreen-nursery-server.vercel.app/api/auth/refresh-token",
         {
           method: "POST",
           credentials: "include",

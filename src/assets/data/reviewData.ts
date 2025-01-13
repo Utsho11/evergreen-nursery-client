@@ -8,21 +8,21 @@ const reviews = [
     name: "Stephnie MackMohan",
     designation: "Web Developer",
     reviews:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it tomake a type specimen book.",
+      "I've been a plant enthusiast for years, and Evergreen Nursery is hands down the best place I've shopped from. The plants arrived in perfect condition, and the variety is incredible! Their customer service is friendly and knowledgeable, helping me choose the perfect plants for my space. Highly recommended!",
   },
   {
     image: user2,
     name: "Jecob Goeckno",
     designation: "Manager",
     reviews:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it tomake a type specimen book.",
+      "I recently bought a few plants from Evergreen Nursery, and I am absolutely thrilled with my purchase! The plants arrived healthy and well-packaged. The customer service was top-notch, and the website made it so easy to find exactly what I was looking for. I’ll definitely be returning for more!",
   },
   {
     image: user3,
     name: "Luies Charls",
     designation: "Web Developer",
     reviews:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it tomake a type specimen book.",
+      "Evergreen Nursery has become my go-to place for all things gardening. The variety of plants they offer is incredible, and the quality is always excellent. Their helpful team is always available to provide advice. My garden has never looked better!",
   },
 ];
 

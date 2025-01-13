@@ -1,7 +1,19 @@
-import { FileText, LogOut, Menu, ShoppingBag, Star, X } from "lucide-react";
+import {
+  FileText,
+  LogOut,
+  Menu,
+  NotebookPen,
+  ShoppingBag,
+  Star,
+  X,
+} from "lucide-react";
 import { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { User, Home, ShoppingCart } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useToast } from "@/components/ui/use-toast";
+import { clearCart } from "@/redux/features/cartSlice";
 
 const links = [
   { name: "Home", icon: <Home size={20} />, path: "/" },
@@ -13,11 +25,37 @@ const links = [
     icon: <ShoppingCart size={20} />,
     path: "/customer/order-history",
   },
-  { name: "Blogs", icon: <FileText size={20} />, path: "/customer/blogs" },
+  {
+    name: "Write Blog",
+    icon: <NotebookPen size={20} />,
+    path: "/publish-blog",
+  },
+  {
+    name: "My Blogs",
+    icon: <FileText size={20} />,
+    path: "/customer/my-blogs",
+  },
 ];
 
 const CustomerDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { items } = useAppSelector((state) => state.cart);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    if (items.length > 0) {
+      alert("Cart will be deleted if you log out!");
+    }
+    dispatch(clearCart());
+    toast({
+      title: "Successfully Log out.",
+      description: "Please visit again.",
+    });
+    navigate("/");
+  };
 
   return (
     <div className="flex">
@@ -52,7 +90,10 @@ const CustomerDashboard = () => {
           </ul>
         </nav>
         <div className="my-16 left-0 w-full px-4">
-          <button className="w-full flex items-center px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded text-white">
+          <button
+            onClick={() => handleLogout()}
+            className="w-full flex items-center px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded text-white"
+          >
             <LogOut size={20} className="mr-3" />
             Logout
           </button>

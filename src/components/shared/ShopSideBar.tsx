@@ -5,18 +5,17 @@ interface ShopSideBarProps {
   categories: TCategory[];
   onCategoryChange: (category: string | null) => void;
   onSortChange: (sortOrder: string | null) => void;
+  selectedCategory: string | null;
 }
 
 const ShopSideBar: React.FC<ShopSideBarProps> = ({
   onCategoryChange,
   onSortChange,
   categories,
+  selectedCategory,
 }) => {
   return (
     <div className="rounded-xl border-2 border-slate-600 sticky top-52">
-      <div className="p-2 border-b-2 border-slate-600">
-        <h1 className="text-xl font-medium">Category</h1>
-      </div>
       <div>
         <h1 className="font-semibold p-2 border-b-2 border-slate-600">
           Sort By Price
@@ -50,15 +49,19 @@ const ShopSideBar: React.FC<ShopSideBarProps> = ({
         </h1>
         <ul className="grid my-5 font-medium text-sm space-y-3 p-4">
           <li
-            className="hover:text-[#81ba00]"
             onClick={() => onCategoryChange(null)}
+            className={`hover:text-[#81ba00] ${
+              selectedCategory === null ? "text-[#81BA00]" : ""
+            }`}
           >
             <NavLink to="/shop">Default</NavLink>
           </li>
           {categories?.map((item, index) => (
             <li
               key={index}
-              className="hover:text-[#81ba00]"
+              className={`hover:text-[#81ba00] ${
+                selectedCategory === item._id ? "text-[#81BA00]" : ""
+              }`}
               onClick={() => onCategoryChange(item._id)}
             >
               <NavLink to={`category/${item.name}`}>{item.name}</NavLink>

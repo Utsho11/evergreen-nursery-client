@@ -45,8 +45,8 @@ const InsertProduct = () => {
       formdata.append("data", JSON.stringify(data));
       imageFiles.forEach((file) => formdata.append("files", file));
 
-      const res = await createPlant(formdata);
-      console.log(res);
+      await createPlant(formdata);
+      // console.log(res);
 
       reset();
       setImagePreviews([]);

@@ -1,16 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Homepage from "@/pages/Homepage";
-// import ProductManagementPage from "@/pages/ProductManagementPage";
-// import InsertProduct from "@/pages/InsertProduct";
 import BlogPage from "@/pages/BlogPage";
 import ShopPage from "@/pages/ShopPage";
 import PlantDetailsPage from "@/components/shared/PlantDetailsPage";
-// import UpdateProduct from "@/pages/UpdateProduct";
 import CartPage from "@/pages/CartPage";
 import PaymentPage from "@/pages/PaymentPage";
-// import ManageCategory from "@/pages/ManageCategory";
-// import OrderDetailsPage from "@/pages/OrderDetailsPage";
 import LoginPage from "@/pages/LoginPage";
 import RegistrationPage from "@/pages/RegistrationPage";
 import ProtectedRoute from "./ProtectedRoute";
@@ -19,6 +14,10 @@ import { adminPaths } from "./admin.routes";
 import { routeGenerator } from "@/utils/routeGenerator";
 import CustomerDashboard from "@/pages/customer/CustomerDashboard";
 import { customerPaths } from "./customer.routes";
+import PublishBlog from "@/pages/PublishBlog";
+import BlogDetailsPage from "@/pages/BlogDetailsPage";
+import ContactUs from "@/pages/ContactUs";
+import AboutUs from "@/pages/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +60,14 @@ const router = createBrowserRouter([
         element: <BlogPage />,
       },
       {
+        path: "/blog/:id",
+        element: <BlogDetailsPage />,
+      },
+      {
+        path: "/publish-blog",
+        element: <PublishBlog />,
+      },
+      {
         path: "/shop",
         element: <ShopPage />,
         children: [
@@ -81,6 +88,14 @@ const router = createBrowserRouter([
       {
         path: "/payment",
         element: <PaymentPage />,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
       },
     ],
   },

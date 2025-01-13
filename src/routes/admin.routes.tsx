@@ -6,6 +6,7 @@ import ManagePlants from "@/pages/admin/ManagePlants";
 import ManageUsers from "@/pages/admin/ManageUsers";
 import UpdatePlant from "@/pages/admin/UpdatePlant";
 import ViewTransactions from "@/pages/admin/ViewTransactions";
+import MyBlogs from "@/pages/MyBlogs";
 
 export const adminPaths = [
   {
@@ -39,5 +40,9 @@ export const adminPaths = [
   {
     path: "view-transactions",
     element: <ViewTransactions />,
+  },
+  {
+    path: "my-blogs",
+    element: <MyBlogs />,
   },
 ];

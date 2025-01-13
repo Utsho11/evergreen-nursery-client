@@ -1,8 +1,6 @@
 import { useState } from "react";
 import ShopSideBar from "@/components/shared/ShopSideBar";
 import PlantCard from "@/components/shared/PlantCard";
-import Lottie from "react-lottie";
-import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import { useGetPlantsQuery } from "@/redux/services/plantApi";
 import { useLocation, useParams } from "react-router-dom";
 import {
@@ -14,6 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApi";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const defaultOptions = {
   loop: true,
@@ -81,6 +81,7 @@ const ShopPage = () => {
       <div className="grid lg:grid-cols-10 md:grid-cols-8 md:gap-5 lg:gap-10">
         <div className="hidden sm:block lg:col-span-2 md:col-span-2">
           <ShopSideBar
+            selectedCategory={category}
             categories={categories}
             onCategoryChange={handleCategoryChange}
             onSortChange={handleSortChange}

@@ -1,4 +1,4 @@
-import { TOrderHistory, TResponseRedux, TUsers } from "@/types";
+import { TBlog, TOrderHistory, TResponseRedux, TUsers } from "@/types";
 import { baseApi } from "../api/baseApi";
 
 const adminApi = baseApi.injectEndpoints({
@@ -17,6 +17,7 @@ const adminApi = baseApi.injectEndpoints({
         };
       },
     }),
+
     getAllUsers: builder.query({
       query: () => ({
         url: "/admin/get-all-users",
@@ -31,6 +32,20 @@ const adminApi = baseApi.injectEndpoints({
       },
     }),
 
+    getAllBlogs: builder.query({
+      query: () => ({
+        url: "/admin/get-all-blogs",
+        method: "GET",
+      }),
+      providesTags: ["blog"],
+
+      transformResponse: (response: TResponseRedux<TBlog[]>) => {
+        return {
+          data: response.data,
+        };
+      },
+    }),
+
     toggleUserStatus: builder.mutation({
       query: (data) => ({
         url: "admin/change-user-status",
@@ -39,11 +54,22 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+
+    toggleBlogStatus: builder.mutation({
+      query: (data) => ({
+        url: "admin/change-blog-status",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["blog"],
+    }),
   }),
 });
 
 export const {
   useGetAllTransactionHistoryQuery,
   useGetAllUsersQuery,
+  useGetAllBlogsQuery,
   useToggleUserStatusMutation,
+  useToggleBlogStatusMutation,
 } = adminApi;

@@ -1,6 +1,7 @@
 import CustomerProfile from "@/pages/customer/CustomerProfile";
 import OrderHistory from "@/pages/customer/OrderHistory";
 import WriteReview from "@/pages/customer/WriteReview";
+import MyBlogs from "@/pages/MyBlogs";
 
 export const customerPaths = [
   {
@@ -14,5 +15,9 @@ export const customerPaths = [
   {
     path: "order-history",
     element: <OrderHistory />,
+  },
+  {
+    path: "my-blogs",
+    element: <MyBlogs />,
   },
 ];

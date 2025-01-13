@@ -31,11 +31,11 @@ const WriteReview = () => {
       itemId: i_id,
     };
 
-    console.log(reviewData);
+    // console.log(reviewData);
     await createReview(reviewData);
   };
 
-  console.log(unreviewdItems);
+  // console.log(unreviewdItems);
 
   if (isReviewLoading) {
     return (

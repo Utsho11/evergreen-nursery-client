@@ -1,4 +1,10 @@
+import {
+  useDeleteBlogMutation,
+  useGetUserBlogQuery,
+} from "@/redux/services/blogApi";
 import banner from "@/assets/bg/footer-parallax.webp";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import {
   Table,
   TableBody,
@@ -7,15 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Lottie from "react-lottie";
-import animationData from "@/assets/loader/Animation - 1721054166339.json";
-import {
-  useDeletePlantMutation,
-  useGetPlantsQuery,
-} from "@/redux/services/plantApi";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Trash2 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { Trash2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const defaultOptions = {
   loop: true,
@@ -25,17 +25,21 @@ const defaultOptions = {
     preserveAspectRatio: "xMidYMid slice",
   },
 };
-const ManagePlants = () => {
-  const { data, isLoading } = useGetPlantsQuery(null);
-  const [deletePlant] = useDeletePlantMutation();
+const MyBlogs = () => {
+  const { data, isLoading } = useGetUserBlogQuery(null);
+  const [deleteBlog] = useDeleteBlogMutation();
 
-  const plants = data?.data || [];
+  const blogs = data?.data || [];
 
-  // console.log(plants);
+  const { toast } = useToast();
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     // console.log(id);
-    deletePlant(id);
+    await deleteBlog(id);
+    toast({
+      title: "Blog deleted successfully",
+      description: "Your blog has been deleted successfully",
+    });
   };
 
   return (
@@ -46,9 +50,7 @@ const ManagePlants = () => {
           backgroundImage: `url(${banner})`,
         }}
       >
-        <h1 className="text-white text-4xl font-bold sm:text-5xl">
-          Manage Plants
-        </h1>
+        <h1 className="text-white text-4xl font-bold sm:text-5xl">My Blogs</h1>
       </div>
       {isLoading ? (
         <div className="flex justify-center items-center my-32">
@@ -56,35 +58,44 @@ const ManagePlants = () => {
         </div>
       ) : (
         <div className="flex justify-center sm:mx-auto gap-5 mb-8">
-          {plants.length > 0 ? (
+          {blogs.length > 0 ? (
             <div className="border w-[20rem] sm:w-[70rem]">
               <Table className="">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
                     <TableHead>Title</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price Per Item</TableHead>
-                    <TableHead>Add Date</TableHead>
-                    <TableHead className="text-center">Actions</TableHead>
+                    <TableHead>Author</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Publish Date</TableHead>
+                    <TableHead className="text-end">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {plants.map((plant, index) => (
+                  {blogs.map((blog, index) => (
                     <TableRow key={index}>
                       <TableCell>
                         <img
-                          src={plant.images[0]}
-                          alt={plant.title}
+                          src={blog.image}
+                          alt={blog.title}
                           className="w-20 h-10 sm:h-20 object-cover rounded-full"
                         />
                       </TableCell>
-                      <TableCell>{plant.title}</TableCell>
-                      <TableCell>{plant.quantity}</TableCell>
-                      <TableCell>{plant.price}</TableCell>
-
+                      <TableCell>{blog.title}</TableCell>
+                      <TableCell>{blog.author.name}</TableCell>
+                      <TableCell>{blog.author.email}</TableCell>
+                      <TableCell
+                        className={`px-4 py-2 ${
+                          blog.status === "ACTIVE"
+                            ? "text-[#81BA00]"
+                            : "text-rose-500"
+                        }`}
+                      >
+                        {blog.status}
+                      </TableCell>
                       <TableCell>
-                        {new Date(plant.createdAt ?? "--").toLocaleDateString(
+                        {new Date(blog?.createdAt ?? 0).toLocaleDateString(
                           "en-US",
                           {
                             year: "numeric",
@@ -93,22 +104,14 @@ const ManagePlants = () => {
                           }
                         )}
                       </TableCell>
-                      <TableCell className="text-center">
+                      <TableCell className="text-end">
                         <Button
-                          onClick={() => handleDelete(plant._id)}
+                          onClick={() => handleDelete(blog._id)}
                           size="icon"
-                          // variant="outline"
+                          variant="outline"
                         >
                           <Trash2 size={20} className="text-rose-500" />
                         </Button>
-                        <NavLink to={`/admin/update-plants/${plant._id}`}>
-                          <Button
-                            size="icon"
-                            // variant="outline"
-                          >
-                            <SquarePen size={20} className="text-blue-500" />
-                          </Button>
-                        </NavLink>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -117,7 +120,7 @@ const ManagePlants = () => {
             </div>
           ) : (
             <>
-              <h1 className="text-3xl font-semibold ">No User Found.</h1>
+              <h1 className="text-3xl font-semibold ">No Blog Found.</h1>
             </>
           )}
         </div>
@@ -126,4 +129,4 @@ const ManagePlants = () => {
   );
 };
 
-export default ManagePlants;
+export default MyBlogs;

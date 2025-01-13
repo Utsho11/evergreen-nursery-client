@@ -63,16 +63,16 @@ const UpdatePlant = () => {
   };
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
 
     const formdata = new FormData();
     try {
       formdata.append("data", JSON.stringify(data));
       imageFiles.forEach((file) => formdata.append("files", file));
 
-      console.log(formdata.get("data"));
-      const res = await updatePlant({ id: id!, data: formdata });
-      console.log(res);
+      // console.log(formdata.get("data"));
+      await updatePlant({ id: id!, data: formdata });
+      // console.log(res);
 
       reset();
       setImagePreviews([]);

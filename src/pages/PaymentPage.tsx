@@ -25,10 +25,10 @@ const PaymentPage = () => {
       cartItems: items,
       totalPrice: total,
     };
-    console.log(paymentData);
+    // console.log(paymentData);
     try {
       const res = await createOrder(paymentData).unwrap();
-      console.log(res.data.payment_url);
+      // console.log(res.data.payment_url);
 
       if (res.data.result === "true") {
         window.location.href = res.data.payment_url;

@@ -69,6 +69,17 @@ export interface TUnreviewedPlant {
   _id: string;
 }
 
+export type TBlog = {
+  _id: string;
+  title: string;
+  blog: string;
+  image: string;
+  author: TUsers;
+  status: "ACTIVE" | "BLOCKED";
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type TReview = {
   user: TUsers;
   plantId: string;
@@ -100,7 +111,6 @@ export type TUsers = {
   role: string;
   image?: string;
   email: string;
-  password: string;
   status: string;
   createdAt: string;
   updatedAt: string;

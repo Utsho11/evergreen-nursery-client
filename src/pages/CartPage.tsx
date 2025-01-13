@@ -66,9 +66,9 @@ const CartPage = () => {
 
   // Handle checkout button click
   const handleCheckout = () => {
-    console.log(user);
+    // console.log(user);
 
-    console.log(user?.role);
+    // console.log(user?.role);
 
     if (user?.role !== "CUSTOMER") {
       setShowWarning(true); // Show the warning modal
@@ -148,7 +148,7 @@ const CartPage = () => {
                 </TableCell>
                 <TableCell className="text-center">
                   <Button
-                    className="navlink hover:bg-transparent"
+                    className="hover:bg-transparent"
                     onClick={() => deleteCart(item.productId)}
                   >
                     <DeleteIcon />

@@ -11,8 +11,13 @@ import {
   Layers,
   Leaf,
   CreditCard,
+  NotebookPen,
+  FileText,
 } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { useToast } from "@/components/ui/use-toast";
 
 const links = [
   { name: "Home", icon: <Home size={20} />, path: "/" }, // Home icon
@@ -43,6 +48,16 @@ const links = [
     path: "/admin/manage-plants",
   },
   {
+    name: "Write Blog",
+    icon: <NotebookPen size={20} />,
+    path: "/publish-blog",
+  },
+  {
+    name: "My Blogs",
+    icon: <FileText size={20} />,
+    path: "/admin/my-blogs",
+  },
+  {
     name: "View Transactions",
     icon: <CreditCard size={20} />, // CreditCard icon for viewing transactions
     path: "/admin/view-transactions",
@@ -51,6 +66,19 @@ const links = [
 
 const AdminDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+
+    toast({
+      title: "Successfully Log out.",
+      description: "Please visit again.",
+    });
+    navigate("/");
+  };
 
   return (
     <div className="flex">
@@ -85,7 +113,10 @@ const AdminDashboard = () => {
           </ul>
         </nav>
         <div className="my-16 left-0 w-full px-4">
-          <button className="w-full flex items-center px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded text-white">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded text-white"
+          >
             <LogOut size={20} className="mr-3" />
             Logout
           </button>

@@ -27,7 +27,7 @@ const PlantDetailsPage = () => {
     plant?.images[0] as string
   );
 
-  console.log(reviews);
+  //console.log(reviews);
 
   const defaultOptions = {
     loop: true,
@@ -74,7 +74,7 @@ const PlantDetailsPage = () => {
 
   if (error) return <div>Error: {error.toString()}</div>;
 
-  console.log(plant);
+  // console.log(plant);
 
   return (
     <div className="container mx-auto mb-32 px-5">

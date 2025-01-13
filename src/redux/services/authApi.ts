@@ -1,4 +1,9 @@
-import { TOrderHistory, TResponseRedux, TUnreviewedPlant } from "@/types";
+import {
+  TOrderHistory,
+  TResponseRedux,
+  TUnreviewedPlant,
+  TUsers,
+} from "@/types";
 import { baseApi } from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -21,11 +26,16 @@ const authApi = baseApi.injectEndpoints({
 
     getMe: builder.query({
       query: () => ({
-        url: "/user/get-me",
+        url: "/auth/get-me",
         method: "GET",
       }),
       providesTags: ["user"],
       keepUnusedDataFor: 0,
+      transformResponse: (response: TResponseRedux<TUsers>) => {
+        return {
+          data: response.data,
+        };
+      },
     }),
 
     createOrder: builder.mutation({
