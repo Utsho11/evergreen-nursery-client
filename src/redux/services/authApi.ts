@@ -1,3 +1,4 @@
+import { TOrderHistory, TResponseRedux, TUnreviewedPlant } from "@/types";
 import { baseApi } from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -9,6 +10,7 @@ const authApi = baseApi.injectEndpoints({
         body: userInfo,
       }),
     }),
+
     register: builder.mutation({
       query: (data) => ({
         url: "auth/register",
@@ -16,6 +18,7 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
     getMe: builder.query({
       query: () => ({
         url: "/user/get-me",
@@ -32,6 +35,45 @@ const authApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: "user/create-review",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["review"],
+    }),
+
+    getUnreviewedItems: builder.query({
+      query: () => ({
+        url: "/user/get-review",
+        method: "GET",
+      }),
+      providesTags: ["review"],
+      keepUnusedDataFor: 0,
+
+      transformResponse: (response: TResponseRedux<TUnreviewedPlant[]>) => {
+        return {
+          data: response.data,
+        };
+      },
+    }),
+
+    getCustomerOrderHistory: builder.query({
+      query: () => ({
+        url: "/user/get-order",
+        method: "GET",
+      }),
+      providesTags: ["order"],
+      keepUnusedDataFor: 0,
+
+      transformResponse: (response: TResponseRedux<TOrderHistory[]>) => {
+        return {
+          data: response.data,
+        };
+      },
+    }),
   }),
 });
 
@@ -40,4 +82,7 @@ export const {
   useRegisterMutation,
   useGetMeQuery,
   useCreateOrderMutation,
+  useGetUnreviewedItemsQuery,
+  useCreateReviewMutation,
+  useGetCustomerOrderHistoryQuery,
 } = authApi;

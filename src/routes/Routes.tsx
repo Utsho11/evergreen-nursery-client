@@ -17,6 +17,8 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import { adminPaths } from "./admin.routes";
 import { routeGenerator } from "@/utils/routeGenerator";
+import CustomerDashboard from "@/pages/customer/CustomerDashboard";
+import { customerPaths } from "./customer.routes";
 
 const router = createBrowserRouter([
   {
@@ -44,18 +46,16 @@ const router = createBrowserRouter([
         ),
         children: routeGenerator(adminPaths),
       },
-      // {
-      //   path: "/manageProducts",
-      //   element: <ProductManagementPage></ProductManagementPage>,
-      // },
-      // {
-      //   path: "/manageProducts/update/:id",
-      //   element: <UpdateProduct></UpdateProduct>,
-      // },
-      // {
-      //   path: "/insertProduct",
-      //   element: <InsertProduct></InsertProduct>,
-      // },
+      {
+        path: "/customer",
+        element: (
+          <ProtectedRoute role="CUSTOMER">
+            <CustomerDashboard />
+          </ProtectedRoute>
+        ),
+        children: routeGenerator(customerPaths),
+      },
+
       {
         path: "/blogs",
         element: <BlogPage />,
@@ -82,14 +82,6 @@ const router = createBrowserRouter([
         path: "/payment",
         element: <PaymentPage />,
       },
-      // {
-      //   path: "/payment/order",
-      //   element: <OrderDetailsPage />,
-      // },
-      // {
-      //   path: "/category/addCategory",
-      //   element: <ManageCategory />,
-      // },
     ],
   },
 ]);

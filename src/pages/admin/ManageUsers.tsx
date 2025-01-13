@@ -1,20 +1,21 @@
-import Lottie from "react-lottie";
-import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import banner from "@/assets/bg/footer-parallax.webp";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import {
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-} from "@/redux/services/categoryApi";
+  useGetAllUsersQuery,
+  useToggleUserStatusMutation,
+} from "@/redux/services/adminApi";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { UserCheck, UserX } from "lucide-react";
+import Lottie from "react-lottie";
+import animationData from "@/assets/loader/Animation - 1721054166339.json";
 
 const defaultOptions = {
   loop: true,
@@ -25,14 +26,15 @@ const defaultOptions = {
   },
 };
 
-const ManageCategory = () => {
-  const { data, isLoading } = useGetCategoriesQuery(null);
-  const [deleteCategory] = useDeleteCategoryMutation();
+const ManageUsers = () => {
+  const { data, isLoading } = useGetAllUsersQuery(null);
+  const [toggleUserStatus] = useToggleUserStatusMutation();
 
-  const categories = data?.data || [];
+  const users = data?.data || [];
 
-  const handleDelete = (id: string) => {
-    deleteCategory(id);
+  const handleToggleState = (userId: string) => {
+    // console.log(userId);
+    toggleUserStatus({ userId });
   };
 
   return (
@@ -44,7 +46,7 @@ const ManageCategory = () => {
         }}
       >
         <h1 className="text-white text-4xl font-bold sm:text-5xl">
-          Manage Category
+          Transaction History
         </h1>
       </div>
       {isLoading ? (
@@ -53,32 +55,43 @@ const ManageCategory = () => {
         </div>
       ) : (
         <div className="flex justify-center sm:mx-auto gap-5 mb-8">
-          {categories.length > 0 ? (
+          {users.length > 0 ? (
             <div className="border w-[20rem] sm:w-[70rem]">
               <Table className="">
+                <TableCaption>Customer Order History</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>
                     <TableHead>Name</TableHead>
-                    <TableHead>Time</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Join Date</TableHead>
                     <TableHead className="text-end">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {categories.map((category, index) => (
+                  {users.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell>
                         <img
-                          src={category.image}
-                          alt={category.name}
+                          src={user.image}
+                          alt={user.name}
                           className="w-20 h-10 sm:h-20 object-cover rounded-full"
                         />
                       </TableCell>
-                      <TableCell>{category.name}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell
+                        className={`px-4 py-2 ${
+                          user.status === "ACTIVE"
+                            ? "text-[#81BA00]"
+                            : "text-rose-500"
+                        }`}
+                      >
+                        {user.status}
+                      </TableCell>
                       <TableCell>
-                        {new Date(
-                          category.createdAt ?? "--"
-                        ).toLocaleDateString("en-US", {
+                        {new Date(user.createdAt).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
@@ -86,11 +99,15 @@ const ManageCategory = () => {
                       </TableCell>
                       <TableCell className="text-end">
                         <Button
-                          onClick={() => handleDelete(category._id)}
-                          size="icon"
+                          onClick={() => handleToggleState(user._id)}
                           variant="outline"
+                          size="icon"
                         >
-                          <Trash2 size={20} className="text-rose-500" />
+                          {user.status === "ACTIVE" ? (
+                            <UserX className="text-rose-500" />
+                          ) : (
+                            <UserCheck className="text-[#81BA00]" />
+                          )}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -100,7 +117,7 @@ const ManageCategory = () => {
             </div>
           ) : (
             <>
-              <h1 className="text-3xl font-semibold ">No Category Found.</h1>
+              <h1 className="text-3xl font-semibold ">No User Found.</h1>
             </>
           )}
         </div>
@@ -109,4 +126,4 @@ const ManageCategory = () => {
   );
 };
 
-export default ManageCategory;
+export default ManageUsers;

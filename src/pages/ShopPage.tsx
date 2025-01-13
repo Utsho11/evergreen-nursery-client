@@ -2,8 +2,8 @@ import { useState } from "react";
 import ShopSideBar from "@/components/shared/ShopSideBar";
 import PlantCard from "@/components/shared/PlantCard";
 import Lottie from "react-lottie";
-import { useGetPlantsQuery } from "@/redux/services/plantApi";
 import animationData from "@/assets/loader/Animation - 1721054166339.json";
+import { useGetPlantsQuery } from "@/redux/services/plantApi";
 import { useLocation, useParams } from "react-router-dom";
 import {
   Select,
@@ -14,6 +14,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApi";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const ShopPage = () => {
   const params = useParams();
@@ -44,14 +53,6 @@ const ShopPage = () => {
   const categories = categoryData?.data || [];
 
   const plants = data?.data || [];
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const handleCategoryChange = (selectedCategory: string | null) => {
     setCategory(selectedCategory);

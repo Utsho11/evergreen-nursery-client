@@ -1,20 +1,52 @@
 import { useState } from "react";
-import { Home, User, Settings, BarChart2, LogOut, Menu, X } from "lucide-react";
+import {
+  Home,
+  User,
+  LogOut,
+  Menu,
+  X,
+  FolderPlus,
+  PackagePlus,
+  Users,
+  Layers,
+  Leaf,
+  CreditCard,
+} from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const links = [
-  { name: "Dashboard", icon: <Home size={20} />, path: "/admin/dashboard" },
+  { name: "Home", icon: <Home size={20} />, path: "/" }, // Home icon
+  { name: "Profile", icon: <User size={20} />, path: "/admin/profile" }, // User Profile icon
   {
     name: "Add Category",
-    icon: <User size={20} />,
+    icon: <FolderPlus size={20} />, // FolderPlus icon for adding categories
     path: "/admin/create-category",
   },
   {
     name: "Add Product",
-    icon: <BarChart2 size={20} />,
+    icon: <PackagePlus size={20} />, // PackagePlus icon for adding products
     path: "/admin/create-product",
   },
-  { name: "Settings", icon: <Settings size={20} />, path: "/admin/settings" },
+  {
+    name: "Manage Users",
+    icon: <Users size={20} />, // Users icon for managing users
+    path: "/admin/manage-users",
+  },
+  {
+    name: "Manage Categories",
+    icon: <Layers size={20} />, // Layers icon for managing categories
+    path: "/admin/manage-category",
+  },
+  {
+    name: "Manage Plants",
+    icon: <Leaf size={20} />, // Leaf icon for managing plants
+    path: "/admin/manage-plants",
+  },
+  {
+    name: "View Transactions",
+    icon: <CreditCard size={20} />, // CreditCard icon for viewing transactions
+    path: "/admin/view-transactions",
+  },
 ];
 
 const AdminDashboard = () => {

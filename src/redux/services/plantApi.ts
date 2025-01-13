@@ -1,4 +1,4 @@
-import { TPlant, TResponseRedux } from "@/types";
+import { TPlant, TResponseRedux, TReview } from "@/types";
 import { baseApi } from "../api/baseApi";
 
 const plantApi = baseApi.injectEndpoints({
@@ -9,6 +9,7 @@ const plantApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["plant"],
     }),
 
     getPlants: builder.query({
@@ -46,12 +47,45 @@ const plantApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["plant"],
+      keepUnusedDataFor: 0,
 
       transformResponse: (response: TResponseRedux<TPlant>) => {
         return {
           data: response.data,
         };
       },
+    }),
+
+    getSinglePlantReviews: builder.query({
+      query: (id) => ({
+        url: `/plant/get-reviews/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["review"],
+      keepUnusedDataFor: 0,
+
+      transformResponse: (response: TResponseRedux<TReview[]>) => {
+        return {
+          data: response.data,
+        };
+      },
+    }),
+
+    deletePlant: builder.mutation({
+      query: (id) => ({
+        url: `plant/delete-plant/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["plant"],
+    }),
+
+    updatePlant: builder.mutation<void, { id: string; data: FormData }>({
+      query: ({ id, data }) => ({
+        url: `plant/update-plant/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["plant"],
     }),
   }),
 });
@@ -60,4 +94,7 @@ export const {
   useCreatePlantMutation,
   useGetPlantsQuery,
   useGetSinglePlantQuery,
+  useGetSinglePlantReviewsQuery,
+  useDeletePlantMutation,
+  useUpdatePlantMutation,
 } = plantApi;

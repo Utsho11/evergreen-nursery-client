@@ -55,10 +55,8 @@ const CartPage = () => {
   };
 
   // Handler to increase quantity
-  const incQuantity = (id: string, availableQuantity: number) => {
-    dispatch(
-      increaseQuantity({ productId: id, quantity: 1, availableQuantity })
-    );
+  const incQuantity = (id: string) => {
+    dispatch(increaseQuantity({ productId: id, quantity: 1 }));
   };
 
   // Handler to decrease quantity
@@ -139,9 +137,7 @@ const CartPage = () => {
                   </Button>
                   <p className="px-2 py-7">{item.quantity}</p>
                   <Button
-                    onClick={() =>
-                      incQuantity(item.productId, item.availableQuantity)
-                    }
+                    onClick={() => incQuantity(item.productId)}
                     className="hover:bg-[#81ba00] hover:text-white"
                   >
                     <PlusIcon />

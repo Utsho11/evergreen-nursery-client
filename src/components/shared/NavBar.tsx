@@ -6,7 +6,8 @@ import {
   User,
   X,
   ChevronDown,
-  ChevronUp,
+  PanelLeftDashed,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,13 +18,20 @@ import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useToast } from "../ui/use-toast";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApi";
 import { clearCart } from "@/redux/features/cartSlice";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const Navbar = () => {
   const { data } = useGetCategoriesQuery(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -65,14 +73,17 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <ul className="hidden lg:flex items-center space-x-8">
+        <ul className="hidden lg:flex items-center space-x-3">
           <li>
             <NavLink to="/shop">
               <Button className="navlink">Shop</Button>
             </NavLink>
           </li>
           <li className="relative group">
-            <Button className="navlink">Category</Button>
+            <Button className="flex items-center">
+              <span className="hover:text-[#81BA00]">Category</span>
+              <ChevronDown size={20} />
+            </Button>
             {/* Mega Menu */}
             <div className="absolute top-12 left-0 w-64 bg-white shadow-md border border-gray-200 p-4 hidden group-hover:block">
               <ul className="space-y-2">
@@ -113,48 +124,32 @@ const Navbar = () => {
           </button>
 
           {user ? (
-            <div className="relative">
-              <button
-                onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                className=" hover:text-[#81ba00] flex items-center"
-              >
-                <User size={20} />
-                {isUserDropdownOpen ? (
-                  <ChevronUp size={16} className="ml-1" />
-                ) : (
-                  <ChevronDown size={16} className="ml-1" />
-                )}
-              </button>
-              {isUserDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 shadow-md rounded-md">
-                  <ul className="py-2">
-                    <li>
-                      <NavLink
-                        to="/admin/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Profile
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/orders"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Orders
-                      </NavLink>
-                    </li>
-                    <li>
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Logout
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              )}
+            <div className="relative ">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <User size={20} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-slate-50">
+                  <DropdownMenuLabel>My Dashboard</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <NavLink
+                      to={`${
+                        user.role === "ADMIN"
+                          ? "/admin/profile"
+                          : "/customer/profile"
+                      }`}
+                      className="flex gap-2 items-center"
+                    >
+                      <PanelLeftDashed />
+                      Profile
+                    </NavLink>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut size={20} /> Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ) : (
             <NavLink to="/login">

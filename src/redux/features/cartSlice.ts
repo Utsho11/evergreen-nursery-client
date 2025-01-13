@@ -9,6 +9,7 @@ export interface CartItem {
   quantity: number;
   discount: number;
   price: number; // Track available stock
+  availableQuantity?: number; // Track available quantity
 }
 
 // Define the initial state type
@@ -48,12 +49,6 @@ const cartSlice = createSlice({
         discount,
         availableQuantity,
       } = action.payload;
-
-      // Check if product is out of stock
-      if (quantity > availableQuantity) {
-        console.error("Cannot add more products than available in stock.");
-        return;
-      }
 
       const discountPrice = quantity * (price - price * discount * 0.01);
       // Find existing item
@@ -104,22 +99,15 @@ const cartSlice = createSlice({
       action: PayloadAction<{
         productId: string;
         quantity: number;
-        availableQuantity: number;
       }>
     ) => {
-      const { productId, quantity, availableQuantity } = action.payload;
+      const { productId, quantity } = action.payload;
 
       const existingItem = state.items.find(
         (item) => item.productId === productId
       );
 
       if (existingItem) {
-        // Check if we are increasing more than available quantity
-        if (existingItem.quantity + quantity > availableQuantity) {
-          console.error("Cannot add more products than available in stock.");
-          return;
-        }
-
         // Increase quantity of existing item
         existingItem.quantity += quantity;
 

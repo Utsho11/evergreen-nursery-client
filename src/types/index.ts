@@ -58,6 +58,23 @@ export interface TCategory {
   updatedAt?: string;
 }
 
+export interface TUnreviewedPlant {
+  productId: string;
+  name: string;
+  image: string;
+  quantity: number;
+  discount: number;
+  price: number;
+  reviewed: boolean;
+  _id: string;
+}
+
+export type TReview = {
+  user: TUsers;
+  plantId: string;
+  review: string;
+};
+
 export type TRoute = {
   path: string;
   element: ReactNode;
@@ -77,74 +94,44 @@ export type TUserPath = {
   children?: TUserPath[];
 };
 
-export interface TProduct {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  discount: number;
-  inventoryCount: string;
-  imageUrl: string;
-  shopName?: string;
-  categoryName?: string;
-  shop?: TProductShop;
-  category?: TProductCategory;
-}
-
-export interface TProductShop {
-  id: string;
-  name: string;
-}
-
-export interface TProductCategory {
-  name: string;
-}
-
 export type TUsers = {
-  id: string;
+  _id: string;
   name?: string;
   role: string;
   image?: string;
   email: string;
   password: string;
-  needPasswordChange: boolean;
   status: string;
-  isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
 };
 
-export interface TOrderItem {
-  id: string;
-  productId: string;
-  product: IProduct;
-}
-
-export interface IProduct {
-  name: string;
-  imageUrl: string;
-}
-
 export interface TOrderHistory {
-  quantity: number;
-  productName: string;
-  productImage: string;
-  productPrice: string;
-  transactionId: string;
-  createdAt: string;
-}
-
-export interface TTNXHistory {
-  orderId: string;
-  transactionId: string;
-  amount: string;
+  userInfo: TUserInfo;
+  _id: string;
+  cartItems: ICartItem[];
+  totalPrice: number;
+  status: string;
   paymentStatus: string;
+  transactionId: string;
   createdAt: string;
+  updatedAt: string;
 }
 
-export interface TReview {
-  rating: number;
-  comment: string;
-  username: string;
+export interface TUserInfo {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+}
+
+export interface ICartItem {
+  productId: string;
+  name: string;
   image: string;
+  quantity: number;
+  discount: number;
+  price: number;
+  reviewed: boolean;
+  _id: string;
 }

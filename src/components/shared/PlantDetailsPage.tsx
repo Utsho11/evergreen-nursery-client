@@ -6,16 +6,28 @@ import Lottie from "react-lottie";
 import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import { useAppDispatch } from "@/redux/hooks";
 import { addCart } from "@/redux/features/cartSlice";
-import { useGetSinglePlantQuery } from "@/redux/services/plantApi";
+import {
+  useGetPlantsQuery,
+  useGetSinglePlantQuery,
+  useGetSinglePlantReviewsQuery,
+} from "@/redux/services/plantApi";
 import { useState } from "react";
+import PlantReview from "./PlantReview";
+import PlantCard from "./PlantCard";
+import banner from "@/assets/bg/footer-parallax.webp";
 
 const PlantDetailsPage = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetSinglePlantQuery(id as string);
   const plant = data?.data;
+  const category = plant?.category._id;
+  const { data: relatedPlants, isFetching } = useGetPlantsQuery({ category });
+  const { data: reviews } = useGetSinglePlantReviewsQuery(id as string);
   const [currentImage, setCurrentImage] = useState<string>(
     plant?.images[0] as string
   );
+
+  console.log(reviews);
 
   const defaultOptions = {
     loop: true,
@@ -65,13 +77,23 @@ const PlantDetailsPage = () => {
   console.log(plant);
 
   return (
-    <div className="container mx-auto my-32 px-5">
+    <div className="container mx-auto mb-32 px-5">
+      <div
+        className="flex items-center justify-center min-h-[40vh] sm:min-h-[35vh] mb-10 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${banner})`,
+        }}
+      >
+        <h1 className="text-white text-4xl font-bold sm:text-5xl">
+          Plant Details Page
+        </h1>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-10 h-full">
         {/* Image Section */}
         <div className="sm:col-span-4 h-full">
           <div className="w-full sm:h-[80%] flex justify-center items-center">
             <img
-              src={currentImage}
+              src={currentImage || plant.images[0]}
               alt={plant?.title}
               className="object-cover rounded-xl w-full h-full"
             />
@@ -132,7 +154,12 @@ const PlantDetailsPage = () => {
               <h1 className="text-xl">
                 Availability:{" "}
                 {plant!.quantity > 0 ? (
-                  <span className="text-[#81ba00] font-semibold">In Stock</span>
+                  <span className="text-[#81ba00] font-semibold">
+                    In Stock{" "}
+                    <span className="text-sm text-slate-400">
+                      ({plant.quantity})
+                    </span>
+                  </span>
                 ) : (
                   <span className="text-red-500 font-semibold">
                     Out of Stock
@@ -160,6 +187,28 @@ const PlantDetailsPage = () => {
               </Button>
             </NavLink>
           </div>
+        </div>
+      </div>
+      <div className="border-t-2 my-4">
+        <h1 className="text-start text-3xl font-semibold my-8">
+          Plant Reviews:{reviews?.data?.length || 0}
+        </h1>
+        <PlantReview reviews={reviews?.data ?? []} />
+      </div>
+      <div className="border-t-2 my-8">
+        <h1 className="text-start text-3xl font-semibold my-8">
+          Related Products
+        </h1>
+        <div className="">
+          {isFetching ? (
+            <h1>Loading...</h1>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {relatedPlants?.data?.map((plant, idx) => (
+                <PlantCard key={idx} plant={plant} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
