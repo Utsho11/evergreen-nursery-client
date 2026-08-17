@@ -3,12 +3,15 @@ import { NavLink, useParams } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, Share2, Sparkles, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { defaultBlogs } from "@/assets/data/defaultBlogs";
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
   const { toast } = useToast();
-  const { data, isLoading } = useGetSingleBlogQuery(id);
-  const blog = data?.data;
+  const { data, isLoading } = useGetSingleBlogQuery(id, {
+    skip: !id || id.startsWith("demo-blog"),
+  });
+  const blog = data?.data || defaultBlogs.find((b) => b._id === id) || defaultBlogs[0];
 
   const handleShare = () => {
     if (navigator.clipboard) {
@@ -20,12 +23,12 @@ const BlogDetailsPage = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading && !blog) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-4xl space-y-6 animate-pulse">
-        <div className="h-8 bg-slate-200 rounded-md w-1/3" />
-        <div className="h-12 bg-slate-200 rounded-md w-3/4" />
-        <div className="h-96 bg-slate-200 rounded-3xl w-full" />
+        <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded-md w-1/3" />
+        <div className="h-12 bg-slate-200 dark:bg-slate-800 rounded-md w-3/4" />
+        <div className="h-96 bg-slate-200 dark:bg-slate-800 rounded-3xl w-full" />
       </div>
     );
   }
@@ -33,8 +36,8 @@ const BlogDetailsPage = () => {
   if (!blog) {
     return (
       <div className="container mx-auto px-4 py-24 text-center space-y-4">
-        <h2 className="text-2xl font-bold text-slate-800">Article Not Found</h2>
-        <p className="text-sm text-slate-500">The blog article you are looking for does not exist.</p>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Article Not Found</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400">The blog article you are looking for does not exist.</p>
         <NavLink to="/blogs">
           <Button className="bg-[#81ba00] text-white rounded-full">Back to Articles</Button>
         </NavLink>

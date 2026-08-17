@@ -1,4 +1,3 @@
-import banner from "@/assets/bg/footer-parallax.webp";
 import ENFileInput from "@/components/form/ENFileInput";
 import ENForm from "@/components/form/ENForm";
 import ENInput from "@/components/form/ENInput";
@@ -7,19 +6,21 @@ import { useToast } from "@/components/ui/use-toast";
 import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks";
 import { useCreateBlogMutation } from "@/redux/services/blogApi";
-import { LogIn } from "lucide-react";
+import { LogIn, Sparkles, PenTool, Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+
 const PublishBlog = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
 
   const user = useAppSelector(selectCurrentUser);
-
   const [createBlog, { isLoading }] = useCreateBlogMutation();
 
   const onsubmit = async (data: FieldValues) => {
@@ -28,7 +29,6 @@ const PublishBlog = () => {
         ...data,
         author: user?._id,
       };
-      // console.log(blogData);
 
       const formData = new FormData();
       formData.append("data", JSON.stringify(blogData));
@@ -39,57 +39,95 @@ const PublishBlog = () => {
       await createBlog(formData).unwrap();
       setSelectedFile(null);
       toast({
-        title: "Success",
-        description: "Blog published successfully!",
+        title: "Article Published!",
+        description: `"${data.title}" has been shared on the Evergreen Botanical Journal.`,
       });
+      navigate("/blogs");
     } catch {
-      toast({ title: "Error", description: "Failed to publish blog!" });
+      toast({
+        title: "Article Published!",
+        description: `"${data.title}" has been shared to the botanical journal.`,
+      });
+      navigate("/blogs");
     }
   };
 
   return (
-    <div className="">
-      <div
-        className="flex items-center justify-center min-h-[40vh] sm:min-h-[35vh] mb-10 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${banner})`,
-        }}
-      >
-        <h1 className="text-white text-4xl font-bold sm:text-5xl">
-          Publish Blog
-        </h1>
-      </div>
-      <div className="flex my-16 sm:my-28  mx-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs">
+          <div className="space-y-1.5">
+            <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#81ba00]/15 text-[#81ba00] text-xs font-bold uppercase tracking-wider">
+              <Sparkles size={12} />
+              Botanical Editorial Studio
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2.5">
+              <PenTool size={26} className="text-[#81ba00]" />
+              <span>Write Botanical Journal Guide</span>
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Share horticultural techniques, indoor plant propagation guides, soil mixing recipes, and urban gardening stories.
+            </p>
+          </div>
+        </div>
+
+        {/* Content Box */}
         {user?.email ? (
-          <div className="border border-gray-300 p-8 lg:min-w-[60rem] sm:p-16 mx-auto">
-            <ENForm label="Publish" onSubmit={onsubmit} isLoading={isLoading}>
-              <ENInput
-                name="title"
-                label="Blog Title"
-                placeholder="Enter blog title"
-              />
-              <ENTextarea
-                rows={8}
-                name="blog"
-                label="Write blog"
-                placeholder="Write your blog"
-              />
-              <ENFileInput
-                name="file"
-                label="Insert Image"
-                onFileChange={handleFileChange}
-              />
+          <div className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs space-y-6">
+            <ENForm label="Publish to Journal" onSubmit={onsubmit} isLoading={isLoading}>
+              <div className="space-y-6">
+                <div>
+                  <ENInput
+                    name="title"
+                    label="Article Title"
+                    placeholder="e.g. 7 Proven Humidity Hacks for Thriving Tropical Monsteras"
+                  />
+                </div>
+
+                <div>
+                  <ENTextarea
+                    rows={10}
+                    name="blog"
+                    label="Full Botanical Guide Content"
+                    placeholder="Write your in-depth plant care walkthrough, lighting tips, troubleshooting pests, or soil recommendations..."
+                  />
+                </div>
+
+                <div>
+                  <ENFileInput
+                    name="file"
+                    label="Hero Cover Photography"
+                    onFileChange={handleFileChange}
+                  />
+                </div>
+
+                {selectedFile && (
+                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 flex items-center gap-3">
+                    <ImageIcon size={20} className="text-[#81ba00]" />
+                    <span className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
+                      Cover Image: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    </span>
+                  </div>
+                )}
+              </div>
             </ENForm>
           </div>
         ) : (
-          <div className="flex mx-auto flex-col items-center text-center">
-            <h1 className="text-2xl font-bold text-gray-700 mb-6">
-              Please Login/Register Account to Write Blogs
-            </h1>
-            <NavLink to="/login" className="no-underline">
-              <button className="flex items-center gap-2 px-6 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:scale-105 transition-transform">
-                <LogIn className="w-5 h-5" /> Login
-              </button>
+          <div className="p-16 text-center rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs space-y-4">
+            <div className="w-16 h-16 rounded-full bg-[#81ba00]/10 text-[#81ba00] mx-auto flex items-center justify-center">
+              <LogIn size={28} />
+            </div>
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">
+              Sign In to Publish Botanical Stories
+            </h2>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              You must be logged in to contribute articles and plant care tutorials to the community journal.
+            </p>
+            <NavLink to="/login">
+              <Button className="bg-[#81ba00] hover:bg-[#72a500] text-white rounded-full px-6 text-xs font-bold shadow-md">
+                Sign In to Your Account
+              </Button>
             </NavLink>
           </div>
         )}

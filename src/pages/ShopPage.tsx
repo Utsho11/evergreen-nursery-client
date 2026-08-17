@@ -4,6 +4,8 @@ import PlantCard from "@/components/shared/PlantCard";
 import { useGetPlantsQuery } from "@/redux/services/plantApi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApi";
+import { defaultPlants } from "@/assets/data/defaultPlants";
+import { defaultCategories } from "@/assets/data/defaultCategories";
 import {
   ChevronLeft,
   ChevronRight,
@@ -46,8 +48,17 @@ const ShopPage = () => {
   });
 
   const { data: categoryData } = useGetCategoriesQuery(null);
-  const categories = categoryData?.data || [];
-  const plants = data?.data || [];
+  const rawCategories = categoryData?.data || [];
+  const categories = rawCategories.length > 0 ? rawCategories : defaultCategories;
+
+  const rawPlants = data?.data || [];
+  // Use fallback plants if API has 0 records and no specific non-matching search is active
+  const plants =
+    rawPlants.length > 0
+      ? rawPlants
+      : !searchQuery && !category
+      ? defaultPlants
+      : rawPlants;
 
   const handleCategoryChange = (selectedCategory: string | null) => {
     setCategory(selectedCategory);
@@ -120,20 +131,20 @@ const ShopPage = () => {
         {/* Product Catalog Content (9 cols) */}
         <main className="lg:col-span-9 space-y-6">
           {/* Top Control Bar: Active Filters, Mobile Toggle, Items Count */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs">
             {/* Left: Mobile Filter Button & Active Filter Tags */}
             <div className="flex flex-wrap items-center gap-2">
               <Button
                 onClick={() => setIsMobileFilterOpen(true)}
                 variant="outline"
-                className="lg:hidden rounded-xl flex items-center gap-2 text-xs font-semibold"
+                className="lg:hidden rounded-xl flex items-center gap-2 text-xs font-semibold dark:border-slate-700 dark:text-slate-200"
               >
                 <Filter size={14} className="text-[#81ba00]" />
                 <span>Filters & Sorting</span>
               </Button>
 
               {searchQuery && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full">
                   <Search size={12} className="text-slate-400" />
                   <span>Keyword: "{searchQuery}"</span>
                   <button
@@ -155,7 +166,7 @@ const ShopPage = () => {
               )}
 
               {sortOrder && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium rounded-full">
                   <SlidersHorizontal size={12} />
                   <span>{sortOrder === "asc" ? "Price: Low to High" : "Price: High to Low"}</span>
                   <button onClick={() => handleSortChange(null)} className="hover:text-rose-500">
@@ -166,9 +177,9 @@ const ShopPage = () => {
             </div>
 
             {/* Right: Items per page Selector & Results count */}
-            <div className="flex items-center justify-between sm:justify-end gap-3 text-xs text-slate-500 font-medium">
+            <div className="flex items-center justify-between sm:justify-end gap-3 text-xs text-slate-500 dark:text-slate-400 font-medium">
               <span>
-                Showing <strong className="text-slate-800">{plants.length}</strong> plants
+                Showing <strong className="text-slate-800 dark:text-slate-200">{plants.length}</strong> plants
               </span>
               <div className="flex items-center gap-1.5">
                 <span>Per Page:</span>
@@ -178,7 +189,7 @@ const ShopPage = () => {
                     setLimit(Number(e.target.value));
                     setPage(1);
                   }}
-                  className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 focus:outline-hidden focus:border-[#81ba00]"
+                  className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden focus:border-[#81ba00]"
                 >
                   <option value={6}>6</option>
                   <option value={12}>12</option>
@@ -193,10 +204,10 @@ const ShopPage = () => {
           {isLoading || isFetching ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(limit)].map((_, idx) => (
-                <div key={idx} className="botanical-card p-4 space-y-3 animate-pulse">
-                  <div className="aspect-square bg-slate-200 rounded-xl w-full" />
-                  <div className="h-4 bg-slate-200 rounded-md w-3/4 mx-auto" />
-                  <div className="h-4 bg-slate-200 rounded-md w-1/2 mx-auto" />
+                <div key={idx} className="botanical-card p-4 space-y-3 animate-pulse dark:bg-slate-900">
+                  <div className="aspect-square bg-slate-200 dark:bg-slate-800 rounded-xl w-full" />
+                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-md w-3/4 mx-auto" />
+                  <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-md w-1/2 mx-auto" />
                 </div>
               ))}
             </div>
@@ -207,12 +218,12 @@ const ShopPage = () => {
               ))}
             </div>
           ) : (
-            <div className="p-12 text-center rounded-3xl bg-white border border-slate-100 shadow-xs space-y-4">
+            <div className="p-12 text-center rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs space-y-4">
               <div className="w-16 h-16 rounded-full bg-[#81ba00]/10 text-[#81ba00] mx-auto flex items-center justify-center">
                 <Search size={28} />
               </div>
-              <h2 className="text-2xl font-bold text-slate-800">No Plants Found</h2>
-              <p className="text-sm text-slate-500 max-w-md mx-auto">
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">No Plants Found</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto">
                 We couldn't find any botanical matches for your current filter criteria. Try adjusting your search term or resetting your filters.
               </p>
               <Button

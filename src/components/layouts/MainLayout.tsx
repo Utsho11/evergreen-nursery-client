@@ -4,10 +4,8 @@ import NavBar from "../shared/NavBar";
 
 const MainLayout = () => {
   return (
-    <div className="">
-      <div className="sticky top-0 z-50 bg-[#1b1b1b] text-white">
-        <NavBar />
-      </div>
+    <div className="min-h-screen flex flex-col bg-[#FAFAF8] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <NavBar />
       <main className="flex-grow">
         <Outlet />
       </main>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FileText,
   LogOut,
@@ -6,118 +7,192 @@ import {
   ShoppingBag,
   Star,
   X,
+  User,
+  ShoppingCart,
+  Sun,
+  Moon,
+  Sparkles,
 } from "lucide-react";
-import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { User, Home, ShoppingCart } from "lucide-react";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logout } from "@/redux/features/auth/authSlice";
+import { logout, selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { useToast } from "@/components/ui/use-toast";
 import { clearCart } from "@/redux/features/cartSlice";
+import { useTheme } from "@/context/ThemeContext";
 
 const links = [
-  { name: "Home", icon: <Home size={20} />, path: "/" },
-  { name: "Profile", icon: <User size={20} />, path: "/customer/profile" },
-  { name: "My Cart", icon: <ShoppingBag size={20} />, path: "/cart" },
-  { name: "Reviews", icon: <Star size={20} />, path: "/customer/add-review" },
-  {
-    name: "Orders",
-    icon: <ShoppingCart size={20} />,
-    path: "/customer/order-history",
-  },
-  {
-    name: "Write Blog",
-    icon: <NotebookPen size={20} />,
-    path: "/publish-blog",
-  },
-  {
-    name: "My Blogs",
-    icon: <FileText size={20} />,
-    path: "/customer/my-blogs",
-  },
+  { name: "My Profile", icon: <User size={18} />, path: "/customer/profile" },
+  { name: "Order History", icon: <ShoppingCart size={18} />, path: "/customer/order-history" },
+  { name: "My Cart", icon: <ShoppingBag size={18} />, path: "/cart" },
+  { name: "Write Review", icon: <Star size={18} />, path: "/customer/add-review" },
+  { name: "Write Article", icon: <NotebookPen size={18} />, path: "/publish-blog" },
+  { name: "My Articles", icon: <FileText size={18} />, path: "/customer/my-blogs" },
 ];
 
 const CustomerDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { items } = useAppSelector((state) => state.cart);
+  const user = useAppSelector(selectCurrentUser);
+  const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     dispatch(logout());
     if (items.length > 0) {
-      alert("Cart will be deleted if you log out!");
+      dispatch(clearCart());
     }
-    dispatch(clearCart());
     toast({
-      title: "Successfully Log out.",
-      description: "Please visit again.",
+      title: "Successfully Logged Out",
+      description: "Come back soon for more botanical treasures!",
     });
     navigate("/");
   };
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <div
-        className={`bg-[#1B1B1B] text-white w-64 lg:w-64 transition-transform duration-300 ease-in-out ${
+    <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      {/* Sidebar Backdrop on Mobile */}
+      {isSidebarOpen && (
+        <div
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden"
+        />
+      )}
+
+      {/* Sidebar Navigation */}
+      <aside
+        className={`w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between fixed lg:sticky top-0 h-screen z-50 transition-transform duration-300 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } fixed lg:relative z-40`}
+        }`}
       >
-        <div className="p-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Customer</h1>
+        {/* Brand & Customer Portal Badge */}
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#81ba00] text-white flex items-center justify-center shadow-md">
+              <Sparkles size={22} />
+            </div>
+            <div>
+              <h2 className="font-extrabold text-base text-slate-900 dark:text-white leading-tight">
+                Customer Portal
+              </h2>
+              <span className="text-[11px] font-bold uppercase text-[#81ba00] tracking-wider">
+                My Nursery Account
+              </span>
+            </div>
+          </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden text-gray-400 hover:text-white"
+            className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
-        <nav className="mt-4">
-          <ul className="space-y-2">
-            {links.map((link, index) => (
-              <li key={index}>
-                <NavLink
-                  to={link.path}
-                  className="flex items-center px-4 py-2 text-sm hover:bg-gray-700 transition-colors rounded"
-                >
-                  <span className="mr-3">{link.icon}</span>
-                  {link.name}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="my-16 left-0 w-full px-4">
-          <button
-            onClick={() => handleLogout()}
-            className="w-full flex items-center px-4 py-2 text-sm bg-red-600 hover:bg-red-700 rounded text-white"
-          >
-            <LogOut size={20} className="mr-3" />
-            Logout
-          </button>
-        </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 bg-gray-100">
-        <div className="mx-auto">
-          <div>
-            <Outlet />
+        {/* Navigation Links */}
+        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+          {links.map((link, index) => {
+            const active = isActive(link.path);
+            return (
+              <NavLink
+                key={index}
+                to={link.path}
+                onClick={() => setIsSidebarOpen(false)}
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 ${
+                  active
+                    ? "bg-[#81ba00] text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <span className={active ? "text-white" : "text-[#81ba00]"}>{link.icon}</span>
+                <span>{link.name}</span>
+              </NavLink>
+            );
+          })}
+        </nav>
+
+        {/* User Card & Logout Footer */}
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-[#81ba00] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                {user?.name ? user.name[0].toUpperCase() : "C"}
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                  {user?.name || "Customer"}
+                </p>
+                <p className="text-[10px] text-slate-400 truncate">{user?.email}</p>
+              </div>
+            </div>
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg text-slate-500 hover:text-[#81ba00]"
+              title="Toggle theme"
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <NavLink
+              to="/"
+              className="flex-1 py-2 px-3 text-center text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-colors"
+            >
+              Shop More
+            </NavLink>
+            <button
+              onClick={handleLogout}
+              className="flex items-center justify-center gap-1.5 py-2 px-4 text-xs font-bold text-rose-600 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 rounded-xl transition-colors"
+            >
+              <LogOut size={14} />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
-      </div>
+      </aside>
 
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className={`${
-          isSidebarOpen ? "hidden" : "block"
-        } lg:hidden fixed top-24 left-4 z-50 bg-gray-800 text-white p-2 rounded shadow-md`}
-      >
-        <Menu size={24} />
-      </button>
+      {/* Main Panel */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top Header Bar */}
+        <header className="h-16 px-4 lg:px-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 z-30">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="lg:hidden p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <Menu size={20} />
+            </button>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+              Customer Account
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              {theme === "dark" ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} />}
+            </button>
+            <NavLink
+              to="/cart"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#81ba00]/15 text-[#81ba00] text-xs font-bold"
+            >
+              <ShoppingBag size={14} />
+              <span>{items.length} Items</span>
+            </NavLink>
+          </div>
+        </header>
+
+        {/* Content Area */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

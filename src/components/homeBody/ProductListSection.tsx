@@ -2,12 +2,14 @@ import PlantCard from "../shared/PlantCard";
 import { Button } from "../ui/button";
 import { NavLink } from "react-router-dom";
 import { useGetPlantsQuery } from "@/redux/services/plantApi";
+import { defaultPlants } from "@/assets/data/defaultPlants";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 const ProductListSection = () => {
   const { data: plants, isLoading } = useGetPlantsQuery({ limit: 8 });
 
-  const plantList = plants?.data || [];
+  const rawPlants = plants?.data || [];
+  const plantList = rawPlants.length > 0 ? rawPlants : defaultPlants;
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
@@ -16,10 +18,10 @@ const ProductListSection = () => {
           <Sparkles size={13} />
           Curated Nursery Selection
         </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
           Trending Plant Corner
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
           Hand-picked bestselling indoor greens, flowering pots, and rare air-purifying plants.
         </p>
       </div>
@@ -27,10 +29,10 @@ const ProductListSection = () => {
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(8)].map((_, idx) => (
-            <div key={idx} className="botanical-card p-4 space-y-3 animate-pulse">
-              <div className="aspect-square bg-slate-200 rounded-2xl w-full" />
-              <div className="h-4 bg-slate-200 rounded-md w-3/4 mx-auto" />
-              <div className="h-4 bg-slate-200 rounded-md w-1/2 mx-auto" />
+            <div key={idx} className="botanical-card p-4 space-y-3 animate-pulse dark:bg-slate-900">
+              <div className="aspect-square bg-slate-200 dark:bg-slate-800 rounded-2xl w-full" />
+              <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-md w-3/4 mx-auto" />
+              <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded-md w-1/2 mx-auto" />
             </div>
           ))}
         </div>

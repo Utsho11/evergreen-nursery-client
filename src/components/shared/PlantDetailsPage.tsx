@@ -8,6 +8,7 @@ import {
   useGetSinglePlantQuery,
   useGetSinglePlantReviewsQuery,
 } from "@/redux/services/plantApi";
+import { defaultPlants } from "@/assets/data/defaultPlants";
 import { useState, useEffect } from "react";
 import PlantReview from "./PlantReview";
 import PlantCard from "./PlantCard";
@@ -29,15 +30,21 @@ const PlantDetailsPage = () => {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
 
-  const { data, error, isLoading } = useGetSinglePlantQuery(id as string);
-  const plant = data?.data;
+  const { data, isLoading } = useGetSinglePlantQuery(id as string, {
+    skip: !id || id.startsWith("demo-plant"),
+  });
+  
+  // Smart fallback to defaultPlants if API doesn't find it or for demo plants
+  const plant = data?.data || defaultPlants.find((p) => p._id === id) || defaultPlants[0];
   const categoryId = plant?.category?._id;
 
   const { data: relatedPlants } = useGetPlantsQuery(
     categoryId ? { category: categoryId } : null,
     { skip: !categoryId }
   );
-  const { data: reviews } = useGetSinglePlantReviewsQuery(id as string);
+  const { data: reviews } = useGetSinglePlantReviewsQuery(id as string, {
+    skip: !id || id.startsWith("demo-plant"),
+  });
 
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
@@ -49,27 +56,27 @@ const PlantDetailsPage = () => {
     }
   }, [plant]);
 
-  if (isLoading) {
+  if (isLoading && !plant) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-pulse">
-          <div className="aspect-square bg-slate-200 rounded-3xl" />
+          <div className="aspect-square bg-slate-200 dark:bg-slate-800 rounded-3xl" />
           <div className="space-y-6">
-            <div className="h-8 bg-slate-200 rounded-md w-3/4" />
-            <div className="h-6 bg-slate-200 rounded-md w-1/4" />
-            <div className="h-24 bg-slate-200 rounded-xl w-full" />
-            <div className="h-12 bg-slate-200 rounded-full w-1/2" />
+            <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded-md w-3/4" />
+            <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-md w-1/4" />
+            <div className="h-24 bg-slate-200 dark:bg-slate-800 rounded-xl w-full" />
+            <div className="h-12 bg-slate-200 dark:bg-slate-800 rounded-full w-1/2" />
           </div>
         </div>
       </div>
     );
   }
 
-  if (error || !plant) {
+  if (!plant) {
     return (
       <div className="container mx-auto px-4 py-24 text-center space-y-4">
-        <h2 className="text-2xl font-bold text-slate-800">Plant Not Found</h2>
-        <p className="text-sm text-slate-500">The plant you are looking for does not exist or has been removed.</p>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Plant Not Found</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400">The plant you are looking for does not exist or has been removed.</p>
         <NavLink to="/shop">
           <Button className="bg-[#81ba00] hover:bg-[#72a500] text-white rounded-full px-6">
             Return to Shop
