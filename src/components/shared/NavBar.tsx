@@ -6,11 +6,20 @@ import {
   User,
   X,
   ChevronDown,
-  PanelLeftDashed,
   LogOut,
   Sparkles,
   Sun,
   Moon,
+  Package,
+  PackagePlus,
+  FolderTree,
+  Receipt,
+  Users,
+  PenTool,
+  BookOpen,
+  ShoppingBag,
+  Star,
+  UserCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +38,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 import Logo from "./Logo";
 
@@ -232,29 +241,162 @@ const Navbar = () => {
                   <ChevronDown size={14} className="text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white dark:bg-slate-900 shadow-xl border border-slate-100 dark:border-slate-800 rounded-xl p-2 w-52" align="end">
-                <DropdownMenuLabel className="px-3 py-2">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{user.name}</p>
+              <DropdownMenuContent className="bg-white dark:bg-slate-900 shadow-2xl border border-slate-100 dark:border-slate-800 rounded-2xl p-2 w-64 max-h-[85vh] overflow-y-auto" align="end">
+                <DropdownMenuLabel className="px-3 py-2.5">
+                  <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{user.name}</p>
                   <p className="text-xs text-slate-400 font-normal truncate">{user.email}</p>
-                  <span className="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-[#81ba00]/15 text-[#81ba00] rounded-full">
-                    {user.role}
+                  <span className="inline-block mt-1.5 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 bg-[#81ba00]/15 text-[#81ba00] rounded-full">
+                    {user.role} Account
                   </span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="dark:bg-slate-800" />
-                <DropdownMenuItem asChild>
-                  <NavLink
-                    to={user.role === "ADMIN" ? "/admin/profile" : "/customer/profile"}
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-lg transition-colors cursor-pointer"
-                  >
-                    <PanelLeftDashed size={16} />
-                    <span>Dashboard</span>
-                  </NavLink>
-                </DropdownMenuItem>
+
+                {user.role === "ADMIN" ? (
+                  <>
+                    <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Nursery Administration
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/profile"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <UserCheck size={15} className="text-[#81ba00]" />
+                        <span>Admin Profile</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/manage-plants"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <Package size={15} className="text-emerald-500" />
+                        <span>Manage Inventory</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/create-product"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <PackagePlus size={15} className="text-[#81ba00]" />
+                        <span>Add New Plant</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/manage-category"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <FolderTree size={15} className="text-amber-500" />
+                        <span>Botanical Categories</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/view-transactions"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <Receipt size={15} className="text-sky-500" />
+                        <span>Orders & Transactions</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/manage-users"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <Users size={15} className="text-purple-500" />
+                        <span>User Management</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/publish-blog"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <PenTool size={15} className="text-[#81ba00]" />
+                        <span>Publish Blog</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/admin/my-blogs"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <BookOpen size={15} className="text-teal-500" />
+                        <span>My Published Blogs</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      Customer Hub
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/customer/profile"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <UserCheck size={15} className="text-[#81ba00]" />
+                        <span>Account Profile</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/customer/order-history"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <ShoppingBag size={15} className="text-emerald-500" />
+                        <span>My Orders</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/customer/add-review"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <Star size={15} className="text-amber-500" />
+                        <span>Write Plant Review</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/publish-blog"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <PenTool size={15} className="text-[#81ba00]" />
+                        <span>Publish Plant Story</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/customer/my-blogs"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <BookOpen size={15} className="text-teal-500" />
+                        <span>My Articles</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <NavLink
+                        to="/cart"
+                        className="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
+                      >
+                        <ShoppingCart size={15} className="text-sky-500" />
+                        <span>My Cart ({items.length})</span>
+                      </NavLink>
+                    </DropdownMenuItem>
+                  </>
+                )}
+
+                <DropdownMenuSeparator className="dark:bg-slate-800" />
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer"
+                  className="flex items-center gap-2.5 px-3 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
                 >
-                  <LogOut size={16} />
+                  <LogOut size={15} />
                   <span>Log Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
