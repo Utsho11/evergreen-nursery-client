@@ -82,14 +82,16 @@ const Navbar = () => {
 
   return (
     <nav className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100/80 dark:border-slate-800 shadow-xs sticky top-0 z-50 transition-colors duration-200">
-      <div className="container mx-auto flex justify-between items-center py-3.5 px-4 lg:px-8">
+      <div className="container mx-auto flex justify-between items-center py-3 px-4 lg:px-8">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2 group">
-          <img
-            src={logo}
-            className="h-[42px] sm:h-[46px] object-contain group-hover:scale-105 transition-transform duration-300 dark:brightness-110"
-            alt="Evergreen Nursery Logo"
-          />
+          <div className="bg-slate-950 dark:bg-transparent px-3 py-1.5 rounded-2xl shadow-xs dark:shadow-none border border-slate-800/40 dark:border-transparent group-hover:scale-105 transition-transform duration-300">
+            <img
+              src={logo}
+              className="h-[32px] sm:h-[36px] object-contain"
+              alt="Evergreen Nursery Logo"
+            />
+          </div>
         </NavLink>
 
         {/* Desktop Navigation */}
