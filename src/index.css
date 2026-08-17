@@ -17,8 +17,12 @@
   }
 
   body {
-    @apply bg-[#FAFAF8] text-slate-800 antialiased;
+    @apply bg-[#FAFAF8] text-slate-800 antialiased font-sans;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6, .heading-font {
+    font-family: "Outfit", sans-serif;
   }
 }
 
