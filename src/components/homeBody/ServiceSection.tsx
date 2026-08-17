@@ -5,38 +5,39 @@ import "swiper/css/navigation";
 
 // Import data
 import sliderData from "@/assets/data/sliderData";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
 const ServiceSection = () => {
   return (
-    <div className="my-24 container mx-auto px-4">
+    <section className="my-16 sm:my-24 container mx-auto px-4 sm:px-6 lg:px-8">
       <Swiper
-        modules={[Pagination]}
+        modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}
-        slidesPerView={1} // Default view for small screens
-        spaceBetween={20} // Default spacing between slides
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        slidesPerView={1}
+        spaceBetween={24}
         breakpoints={{
           375: { slidesPerView: 1, spaceBetween: 20 },
-          640: { slidesPerView: 2, spaceBetween: 20 },
+          640: { slidesPerView: 2, spaceBetween: 24 },
           1024: { slidesPerView: 3, spaceBetween: 30 },
         }}
-        className=""
+        className="pb-12"
       >
         {sliderData.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-[#f7f7f7] max-w-[400px] rounded-lg shadow-md text-center py-8 flex flex-col justify-between items-center">
-              <div className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] rounded-full bg-white flex justify-center items-center overflow-hidden relative group hover:bg-[#81BA00] transition-all duration-500 ease-in-out">
+            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-xs hover:shadow-lg transition-all duration-300 p-8 flex flex-col items-center text-center space-y-4">
+              <div className="w-24 h-24 rounded-2xl bg-emerald-50 dark:bg-slate-800 flex justify-center items-center overflow-hidden relative group hover:bg-[#81BA00] transition-colors duration-300 shadow-inner">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="absolute top-8 transform -translate-y-2/3 group-hover:top-8 group-hover:transform-none transition-all duration-500 ease-in-out"
+                  className="w-14 h-14 object-contain group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <div className="px-6 sm:px-8">
-                <h1 className="pt-6 pb-4 font-semibold text-base sm:text-lg">
+              <div className="space-y-2">
+                <h3 className="font-extrabold text-base sm:text-lg text-slate-800 dark:text-slate-100">
                   {item.title}
-                </h1>
-                <p className="text-[#7e7e7e] text-xs sm:text-sm">
+                </h3>
+                <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -44,7 +45,7 @@ const ServiceSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 

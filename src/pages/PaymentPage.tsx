@@ -65,150 +65,152 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
-      {/* Checkout Progress Stepper */}
-      <div className="max-w-2xl mx-auto py-4">
-        <div className="flex items-center justify-between relative">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-slate-200 -z-10" />
-          <NavLink to="/cart" className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] px-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shadow-xs">
-              <CheckCircle2 size={16} />
+    <div className="min-h-screen bg-[#FAFAF8] dark:bg-slate-950 py-8 sm:py-12 transition-colors duration-200">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {/* Checkout Progress Stepper */}
+        <div className="max-w-2xl mx-auto py-4">
+          <div className="flex items-center justify-between relative">
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-full bg-slate-200 dark:bg-slate-800 -z-10" />
+            <NavLink to="/cart" className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] dark:bg-slate-950 px-3">
+              <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center font-bold text-xs shadow-xs">
+                <CheckCircle2 size={16} />
+              </div>
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Shopping Cart</span>
+            </NavLink>
+            <div className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] dark:bg-slate-950 px-3">
+              <div className="w-9 h-9 rounded-full bg-[#81ba00] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                2
+              </div>
+              <span className="text-xs font-bold text-[#81ba00]">Checkout Info</span>
             </div>
-            <span className="text-xs font-medium text-slate-500">Shopping Cart</span>
-          </NavLink>
-          <div className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] px-3">
-            <div className="w-9 h-9 rounded-full bg-[#81ba00] text-white flex items-center justify-center font-bold text-xs shadow-sm">
-              2
+            <div className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] dark:bg-slate-950 px-3">
+              <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold text-xs">
+                3
+              </div>
+              <span className="text-xs font-medium text-slate-400">Confirmation</span>
             </div>
-            <span className="text-xs font-bold text-[#81ba00]">Checkout Info</span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 bg-[#FAFAF8] px-3">
-            <div className="w-9 h-9 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-xs">
-              3
-            </div>
-            <span className="text-xs font-medium text-slate-400">Confirmation</span>
           </div>
         </div>
-      </div>
 
-      {/* Main Grid: Form (7 cols) + Order Review (5 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
-        {/* Delivery Information Form (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8 space-y-6">
-          <div className="border-b border-slate-100 pb-4">
-            <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-2">
-              <MapPin size={20} className="text-[#81ba00]" />
-              <span>Delivery & Customer Details</span>
-            </h2>
-            <p className="text-xs text-slate-400 mt-1">
-              Please provide accurate shipping information for safe nursery delivery.
-            </p>
-          </div>
-
-          <ENForm
-            label="Proceed to Secure Payment"
-            onSubmit={onSubmit}
-            isLoading={isLoading}
-            defaultValues={{
-              name: user?.name || "",
-              email: user?.email || "",
-              phone: "",
-              location: "",
-            }}
-          >
-            <div className="space-y-4">
-              <div>
-                <ENInput
-                  name="name"
-                  label="Full Recipient Name"
-                  placeholder="e.g. Eleanor Vance"
-                />
-              </div>
-
-              <div>
-                <ENInput
-                  name="email"
-                  label="Email Address (for order receipts)"
-                  placeholder="e.g. eleanor@example.com"
-                />
-              </div>
-
-              <div>
-                <ENInput
-                  name="phone"
-                  label="Contact Phone Number"
-                  placeholder="e.g. +1 555 019 2834"
-                />
-              </div>
-
-              <div>
-                <ENInput
-                  name="location"
-                  label="Delivery Address & City"
-                  placeholder="e.g. 42 Green Orchard Lane, Apt 3B, New York, NY"
-                />
-              </div>
+        {/* Main Grid: Form (7 cols) + Order Review (5 cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-5xl mx-auto">
+          {/* Delivery Information Form (7 cols) */}
+          <div className="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 sm:p-8 space-y-6 transition-colors">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <MapPin size={20} className="text-[#81ba00]" />
+                <span>Delivery & Customer Details</span>
+              </h2>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+                Please provide accurate shipping information for safe nursery delivery.
+              </p>
             </div>
-          </ENForm>
 
-          <NavLink
-            to="/cart"
-            className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#81ba00] pt-2"
-          >
-            <ArrowLeft size={14} />
-            <span>Return to Cart Review</span>
-          </NavLink>
-        </div>
-
-        {/* Order Review Sidebar (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-3xl border border-slate-100 shadow-sm p-6 space-y-6 sticky top-24">
-          <h3 className="text-base font-extrabold text-slate-800 border-b border-slate-100 pb-4 flex items-center gap-2">
-            <CreditCard size={18} className="text-[#81ba00]" />
-            <span>Order Overview</span>
-          </h3>
-
-          {/* Mini item list */}
-          <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
-            {items.map((item) => (
-              <div key={item.productId} className="flex items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-12 h-12 rounded-xl object-cover border border-slate-100 flex-shrink-0"
+            <ENForm
+              label="Proceed to Secure Payment"
+              onSubmit={onSubmit}
+              isLoading={isLoading}
+              defaultValues={{
+                name: user?.name || "",
+                email: user?.email || "",
+                phone: "",
+                location: "",
+              }}
+            >
+              <div className="space-y-4">
+                <div>
+                  <ENInput
+                    name="name"
+                    label="Full Recipient Name"
+                    placeholder="e.g. Eleanor Vance"
                   />
-                  <div className="truncate max-w-[140px]">
-                    <p className="font-bold text-slate-800 truncate">{item.name}</p>
-                    <p className="text-slate-400 font-medium">Qty: {item.quantity}</p>
-                  </div>
                 </div>
-                <span className="font-bold text-slate-700">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </span>
+
+                <div>
+                  <ENInput
+                    name="email"
+                    label="Email Address (for order receipts)"
+                    placeholder="e.g. eleanor@example.com"
+                  />
+                </div>
+
+                <div>
+                  <ENInput
+                    name="phone"
+                    label="Contact Phone Number"
+                    placeholder="e.g. +1 555 019 2834"
+                  />
+                </div>
+
+                <div>
+                  <ENInput
+                    name="location"
+                    label="Delivery Address & City"
+                    placeholder="e.g. 42 Green Orchard Lane, Apt 3B, New York, NY"
+                  />
+                </div>
               </div>
-            ))}
+            </ENForm>
+
+            <NavLink
+              to="/cart"
+              className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-[#81ba00] pt-2"
+            >
+              <ArrowLeft size={14} />
+              <span>Return to Cart Review</span>
+            </NavLink>
           </div>
 
-          {/* Total Breakdown */}
-          <div className="border-t border-slate-100 pt-4 space-y-2.5 text-xs text-slate-600">
-            <div className="flex justify-between">
-              <span>Subtotal</span>
-              <span className="font-semibold text-slate-800">${total.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Botanical Packaging</span>
-              <span className="text-emerald-600 font-bold">FREE</span>
-            </div>
-            <div className="border-t border-slate-100 pt-3 flex justify-between items-baseline text-base font-extrabold text-slate-800">
-              <span>Amount Due</span>
-              <span className="text-2xl text-[#81ba00]">${total.toFixed(2)}</span>
-            </div>
-          </div>
+          {/* Order Review Sidebar (5 cols) */}
+          <div className="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 space-y-6 sticky top-24 transition-colors">
+            <h3 className="text-base font-extrabold text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800 pb-4 flex items-center gap-2">
+              <CreditCard size={18} className="text-[#81ba00]" />
+              <span>Order Overview</span>
+            </h3>
 
-          {/* SSL Security Badge */}
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 flex items-center gap-3 text-[11px] text-slate-500">
-            <Lock size={16} className="text-emerald-600 flex-shrink-0" />
-            <span>Payments are securely processed via 256-bit encrypted SSLCommerz gateway.</span>
+            {/* Mini item list */}
+            <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+              {items.map((item) => (
+                <div key={item.productId} className="flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-12 h-12 rounded-xl object-cover border border-slate-100 dark:border-slate-800 flex-shrink-0"
+                    />
+                    <div className="truncate max-w-[140px]">
+                      <p className="font-bold text-slate-800 dark:text-slate-100 truncate">{item.name}</p>
+                      <p className="text-slate-400 font-medium">Qty: {item.quantity}</p>
+                    </div>
+                  </div>
+                  <span className="font-bold text-slate-700 dark:text-slate-200">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Total Breakdown */}
+            <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-2.5 text-xs text-slate-600 dark:text-slate-300">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-100">${total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Botanical Packaging</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold">FREE</span>
+              </div>
+              <div className="border-t border-slate-100 dark:border-slate-800 pt-3 flex justify-between items-baseline text-base font-extrabold text-slate-800 dark:text-slate-100">
+                <span>Amount Due</span>
+                <span className="text-2xl text-[#81ba00]">${total.toFixed(2)}</span>
+              </div>
+            </div>
+
+            {/* SSL Security Badge */}
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400">
+              <Lock size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+              <span>Payments are securely processed via 256-bit encrypted SSLCommerz gateway.</span>
+            </div>
           </div>
         </div>
       </div>

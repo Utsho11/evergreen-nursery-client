@@ -1,5 +1,4 @@
-import footer from "@/assets/footer.webp";
-import logo from "@/assets/logo.png";
+import Logo from "./Logo";
 import { NavLink } from "react-router-dom";
 import {
   Facebook,
@@ -23,32 +22,26 @@ const Footer = () => {
     e.preventDefault();
     if (newsletterEmail.trim()) {
       toast({
-        title: "Subscribed!",
-        description: "Thank you for joining the Evergreen Botanical Newsletter.",
+        title: "Welcome to the Evergreen Club!",
+        description: "Your 10% discount code has been sent to your email.",
       });
       setNewsletterEmail("");
     }
   };
 
   return (
-    <footer className="relative bg-slate-950 text-slate-300 pt-16 pb-8 overflow-hidden">
-      {/* Subtle Background Layer */}
-      <div
-        style={{
-          backgroundImage: `url(${footer})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        className="absolute inset-0 opacity-15 pointer-events-none"
-      />
+    <footer className="relative bg-slate-950 text-slate-300 pt-16 pb-12 overflow-hidden border-t border-slate-800">
+      {/* Botanical Background Accent Glow */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#81ba00]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-10 w-72 h-72 bg-emerald-800/10 rounded-full blur-2xl pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
         {/* Top Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand Col (2 cols on lg) */}
           <div className="lg:col-span-2 space-y-4">
-            <NavLink to="/" className="inline-block">
-              <img src={logo} alt="Evergreen Nursery" className="h-10 brightness-0 invert" />
+            <NavLink to="/" className="inline-block group">
+              <Logo size="lg" />
             </NavLink>
             <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
               Evergreen Nursery is dedicated to cultivating sustainably grown indoor & outdoor plants, providing expert care guidance, and bringing fresh serenity into modern living spaces.

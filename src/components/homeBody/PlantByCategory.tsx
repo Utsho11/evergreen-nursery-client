@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useGetCategoriesQuery } from "@/redux/services/categoryApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { defaultCategories } from "@/assets/data/defaultCategories";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,7 +11,8 @@ import { Pagination } from "swiper/modules";
 
 const PlantByCategory = () => {
   const { data, isLoading } = useGetCategoriesQuery(null);
-  const categories = data?.data || [];
+  const rawCategories = data?.data || [];
+  const categories = rawCategories.length > 0 ? rawCategories : defaultCategories;
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
@@ -19,10 +21,10 @@ const PlantByCategory = () => {
           <Sparkles size={13} />
           Botanical Collections
         </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
           Shop by Plant Category
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
           Find the perfect botanical addition tailored to your interior space and gardening lifestyle.
         </p>
       </div>

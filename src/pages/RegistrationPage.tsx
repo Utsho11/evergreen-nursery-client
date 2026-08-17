@@ -1,5 +1,4 @@
 import ENForm from "@/components/form/ENForm";
-import banner from "../assets/bg/footer-parallax.webp";
 import { FieldValues } from "react-hook-form";
 import ENInput from "@/components/form/ENInput";
 import ENFileInput from "@/components/form/ENFileInput";
@@ -10,17 +9,16 @@ import { verifyToken } from "@/utils/verifyToken";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/features/auth/authSlice";
 import { useToast } from "@/components/ui/use-toast";
+import Logo from "@/components/shared/Logo";
+import { Image as ImageIcon } from "lucide-react";
 
 const RegistrationPage = () => {
   const { toast } = useToast();
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [register, { isLoading }] = useRegisterMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
@@ -39,7 +37,6 @@ const RegistrationPage = () => {
       formData.append("file", selectedFile);
 
       const res = await register(formData).unwrap();
-
       const user = verifyToken(res.data.accessToken);
 
       if (!user) {
@@ -48,8 +45,8 @@ const RegistrationPage = () => {
 
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast({
-        title: "Registration Successful",
-        description: "Welcome to Evergreen Nursery!",
+        title: "Registration Successful!",
+        description: "Welcome to Evergreen Botanical Nursery community.",
       });
 
       navigate("/");
@@ -64,80 +61,93 @@ const RegistrationPage = () => {
   };
 
   return (
-    <div className="w-full">
-      <div
-        className="flex items-center justify-center sm:min-h-[40vh] mb-10 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${banner})`,
-        }}
-      >
-        <h1 className="text-white text-4xl font-bold sm:text-5xl">
-          Create Account
-        </h1>
-      </div>
-      <div className="mx-auto w-full max-w-md sm:max-w-lg p-6 border shadow-md rounded-lg bg-white mb-8">
-        <div className="">
-          <h1 className="text-center text-3xl font-semibold mb-6">Register</h1>
+    <div className="min-h-screen bg-[#FAFAF8] dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center transition-colors duration-200">
+      <div className="mx-auto w-full max-w-lg space-y-6">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center text-center space-y-3">
+          <NavLink to="/">
+            <Logo size="lg" />
+          </NavLink>
+          <div>
+            <h1 className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">
+              Create Your Account
+            </h1>
+            <p className="text-xs text-slate-400 mt-1">
+              Join our botanical garden community for discounts, plant tracking, and reviews.
+            </p>
+          </div>
         </div>
-        <div className="">
+
+        {/* Registration Card */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm space-y-6 transition-colors">
           <ENForm
             isLoading={isLoading}
             onSubmit={onSubmit}
-            label="Create Account"
+            label="Complete Registration"
           >
-            <ENInput
-              name="name"
-              type="text"
-              label="Fullname"
-              placeholder="Enter fullname"
-            />
-            <ENInput
-              name="email"
-              type="email"
-              label="Email"
-              placeholder="Enter email"
-            />
-            <div className="space-y-4 sm:space-y-0 sm:flex gap-3">
+            <div className="space-y-4">
               <ENInput
-                name="mobileNumber"
-                label="Mobile Number"
+                name="name"
                 type="text"
-                placeholder="Enter mobile number"
+                label="Full Name"
+                placeholder="e.g. Julian Hayes"
               />
+
               <ENInput
-                name="location"
-                label="Location"
-                type="text"
-                placeholder="Enter location"
+                name="email"
+                type="email"
+                label="Email Address"
+                placeholder="e.g. julian@example.com"
               />
-            </div>
-            <ENFileInput
-              name="file"
-              label="Insert ProfilePhoto"
-              accept="image/*"
-              onFileChange={handleFileChange}
-            />
-            <ENInput
-              name="password"
-              type={showPassword ? "text" : "password"}
-              label="Password"
-              placeholder="Enter password"
-            />
-            <div className="flex items-center gap-3 mt-2">
-              <input
-                type="checkbox"
-                onClick={togglePasswordVisibility}
-                className="checkbox checkbox-primary"
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <ENInput
+                  name="mobileNumber"
+                  label="Contact Phone"
+                  type="text"
+                  placeholder="+1 (555) 019-2834"
+                />
+                <ENInput
+                  name="location"
+                  label="Shipping Address / City"
+                  type="text"
+                  placeholder="Green Valley, CA"
+                />
+              </div>
+
+              <div>
+                <ENFileInput
+                  name="file"
+                  label="Profile Picture Avatar"
+                  accept="image/*"
+                  onFileChange={handleFileChange}
+                />
+                {selectedFile && (
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-1.5 flex items-center gap-1">
+                    <ImageIcon size={12} />
+                    Selected: {selectedFile.name}
+                  </p>
+                )}
+              </div>
+
+              <ENInput
+                name="password"
+                type="password"
+                label="Account Password"
+                placeholder="Choose a strong password"
               />
-              <span className="text-sm">Show Password</span>
             </div>
           </ENForm>
-          <p className="text-center text-sm text-gray-600 mt-6">
-            Already have an account?{" "}
-            <NavLink to="/login" className="text-blue-500 font-medium">
-              Login now
-            </NavLink>
-          </p>
+
+          {/* Login Link */}
+          <div className="text-center pt-2 border-t border-slate-100 dark:border-slate-800">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Already have an account?{" "}
+              <NavLink to="/login" className="text-[#81ba00] hover:underline font-bold">
+                Sign In
+              </NavLink>
+            </p>
+          </div>
         </div>
       </div>
     </div>

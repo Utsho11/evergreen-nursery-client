@@ -1,9 +1,14 @@
 const ImageGallery = () => {
   return (
-    <div className="hidden sm:block my-24 container mx-auto">
-      <div className="flex flex-col pb-16">
-        <h1 className="mx-auto text-4xl font-medium">Plant Corner</h1>
-        <hr className="mx-auto border-2 border-[#81ba00] my-4 w-32" />
+    <div className="hidden sm:block my-24 container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col items-center pb-12 space-y-2 text-center">
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
+          Botanical Living Gallery
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          Inspiration from living plant corners styled by our community of plant lovers.
+        </p>
+        <div className="w-20 h-1 bg-[#81ba00] rounded-full mx-auto mt-2" />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="grid gap-4">
