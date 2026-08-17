@@ -2,10 +2,12 @@ import { Outlet } from "react-router-dom";
 import Footer from "../shared/Footer";
 import NavBar from "../shared/NavBar";
 import ScrollToTop from "../shared/ScrollToTop";
+import SmoothScroll from "../shared/SmoothScroll";
 
 const MainLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFAF8] dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <SmoothScroll />
       <NavBar />
       <main className="flex-grow">
         <Outlet />
