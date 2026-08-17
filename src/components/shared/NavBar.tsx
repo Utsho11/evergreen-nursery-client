@@ -10,6 +10,12 @@ import {
   Sparkles,
   Sun,
   Moon,
+  Home,
+  Store,
+  Leaf,
+  Grid,
+  Info,
+  PhoneCall,
   Package,
   PackagePlus,
   FolderTree,
@@ -98,37 +104,40 @@ const Navbar = () => {
           <Logo size="md" />
         </NavLink>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation with Icons */}
         <ul className="hidden lg:flex items-center space-x-1">
           <li>
             <NavLink
               to="/"
-              className={`navlink text-sm uppercase tracking-wide dark:text-slate-300 dark:hover:text-[#81ba00] ${
-                isActiveRoute("/") && location.pathname === "/" ? "active text-[#81ba00] dark:text-[#81ba00]" : ""
+              className={`navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 dark:hover:text-[#81ba00] ${
+                isActiveRoute("/") && location.pathname === "/" ? "active text-[#81ba00] bg-[#81ba00]/10 dark:text-[#81ba00]" : ""
               }`}
             >
-              Home
+              <Home size={15} />
+              <span>Home</span>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/shop"
-              className={`navlink text-sm uppercase tracking-wide dark:text-slate-300 dark:hover:text-[#81ba00] ${
-                isActiveRoute("/shop") ? "active text-[#81ba00] dark:text-[#81ba00]" : ""
+              className={`navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 dark:hover:text-[#81ba00] ${
+                isActiveRoute("/shop") ? "active text-[#81ba00] bg-[#81ba00]/10 dark:text-[#81ba00]" : ""
               }`}
             >
-              Plants
+              <Store size={15} />
+              <span>Plants</span>
             </NavLink>
           </li>
           <li className="relative">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="navlink text-sm uppercase tracking-wide dark:text-slate-300 cursor-pointer flex items-center gap-1">
+                <button className="navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 cursor-pointer">
+                  <Grid size={15} />
                   <span>Categories</span>
-                  <ChevronDown size={16} className="text-slate-400" />
+                  <ChevronDown size={14} className="text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-xl border border-slate-100 dark:border-slate-800 rounded-xl p-2 w-56">
+              <DropdownMenuContent className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-xl border border-slate-100 dark:border-slate-800 rounded-2xl p-2 w-56">
                 <DropdownMenuLabel className="text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500 font-semibold px-3 py-1">
                   Plant Categories
                 </DropdownMenuLabel>
@@ -136,9 +145,9 @@ const Navbar = () => {
                 <DropdownMenuItem asChild>
                   <NavLink
                     to="/shop"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-lg transition-colors cursor-pointer"
+                    className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer"
                   >
-                    <Sparkles size={16} className="text-[#81ba00]" />
+                    <Sparkles size={14} className="text-[#81ba00]" />
                     <span>All Plants</span>
                   </NavLink>
                 </DropdownMenuItem>
@@ -146,9 +155,10 @@ const Navbar = () => {
                   <DropdownMenuItem key={category._id} asChild>
                     <NavLink
                       to={`/shop/category/${category.name}`}
-                      className="flex items-center px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-lg transition-colors cursor-pointer capitalize"
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-[#81ba00]/10 hover:text-[#81ba00] rounded-xl transition-colors cursor-pointer capitalize"
                     >
-                      {category.name}
+                      <Leaf size={13} className="text-[#81ba00]" />
+                      <span>{category.name}</span>
                     </NavLink>
                   </DropdownMenuItem>
                 ))}
@@ -158,33 +168,36 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/blogs"
-              className={`navlink text-sm uppercase tracking-wide dark:text-slate-300 dark:hover:text-[#81ba00] ${
+              className={`navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 dark:hover:text-[#81ba00] ${
                 isActiveRoute("/blogs") || isActiveRoute("/blog")
-                  ? "active text-[#81ba00] dark:text-[#81ba00]"
+                  ? "active text-[#81ba00] bg-[#81ba00]/10 dark:text-[#81ba00]"
                   : ""
               }`}
             >
-              Blogs
+              <BookOpen size={15} />
+              <span>Blogs</span>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/about"
-              className={`navlink text-sm uppercase tracking-wide dark:text-slate-300 dark:hover:text-[#81ba00] ${
-                isActiveRoute("/about") ? "active text-[#81ba00] dark:text-[#81ba00]" : ""
+              className={`navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 dark:hover:text-[#81ba00] ${
+                isActiveRoute("/about") ? "active text-[#81ba00] bg-[#81ba00]/10 dark:text-[#81ba00]" : ""
               }`}
             >
-              About Us
+              <Info size={15} />
+              <span>About Us</span>
             </NavLink>
           </li>
           <li>
             <NavLink
               to="/contact"
-              className={`navlink text-sm uppercase tracking-wide dark:text-slate-300 dark:hover:text-[#81ba00] ${
-                isActiveRoute("/contact") ? "active text-[#81ba00] dark:text-[#81ba00]" : ""
+              className={`navlink text-xs uppercase tracking-wider flex items-center gap-1.5 px-3 py-2 rounded-full transition-colors dark:text-slate-300 dark:hover:text-[#81ba00] ${
+                isActiveRoute("/contact") ? "active text-[#81ba00] bg-[#81ba00]/10 dark:text-[#81ba00]" : ""
               }`}
             >
-              Contact
+              <PhoneCall size={15} />
+              <span>Contact</span>
             </NavLink>
           </li>
         </ul>
@@ -451,48 +464,54 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer Navigation with Icons */}
       {isMobileMenuOpen && (
         <div className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl px-4 py-6 space-y-4">
-          <ul className="flex flex-col space-y-1 font-medium text-slate-700 dark:text-slate-200">
+          <ul className="flex flex-col space-y-1 font-semibold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-200">
             <li>
               <NavLink
                 to="/"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                Home
+                <Home size={16} className="text-[#81ba00]" />
+                <span>Home</span>
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/shop"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                Plants
+                <Store size={16} className="text-[#81ba00]" />
+                <span>Plants</span>
               </NavLink>
             </li>
             <li>
               <button
                 onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                className="w-full flex justify-between items-center px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="w-full flex justify-between items-center px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                <span>Categories</span>
+                <div className="flex items-center gap-3">
+                  <Grid size={16} className="text-[#81ba00]" />
+                  <span>Categories</span>
+                </div>
                 <ChevronDown
-                  size={18}
+                  size={16}
                   className={`transition-transform duration-200 ${isCategoryOpen ? "rotate-180 text-[#81ba00]" : ""}`}
                 />
               </button>
               {isCategoryOpen && (
-                <ul className="pl-6 py-2 space-y-1 border-l-2 border-[#81ba00]/30 ml-4 my-1">
+                <ul className="pl-8 py-2 space-y-1 border-l-2 border-[#81ba00]/30 ml-6 my-1">
                   <li>
                     <NavLink
                       to="/shop"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-[#81ba00]"
+                      className="flex items-center gap-2 px-3 py-2 text-xs text-slate-600 dark:text-slate-400 hover:text-[#81ba00]"
                     >
-                      All Plants
+                      <Sparkles size={14} className="text-[#81ba00]" />
+                      <span>All Plants</span>
                     </NavLink>
                   </li>
                   {categories.map((category) => (
@@ -500,9 +519,10 @@ const Navbar = () => {
                       <NavLink
                         to={`/shop/category/${category.name}`}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="block px-3 py-1.5 text-sm text-slate-600 dark:text-slate-400 hover:text-[#81ba00] capitalize"
+                        className="flex items-center gap-2 px-3 py-2 text-xs text-slate-600 dark:text-slate-400 hover:text-[#81ba00] capitalize"
                       >
-                        {category.name}
+                        <Leaf size={13} className="text-[#81ba00]" />
+                        <span>{category.name}</span>
                       </NavLink>
                     </li>
                   ))}
@@ -513,27 +533,30 @@ const Navbar = () => {
               <NavLink
                 to="/blogs"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                Blogs
+                <BookOpen size={16} className="text-[#81ba00]" />
+                <span>Blogs</span>
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/about"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                About Us
+                <Info size={16} className="text-[#81ba00]" />
+                <span>About Us</span>
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2.5 rounded-lg hover:bg-[#81ba00]/10 hover:text-[#81ba00]"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-[#81ba00]/10 hover:text-[#81ba00] transition-colors"
               >
-                Contact
+                <PhoneCall size={16} className="text-[#81ba00]" />
+                <span>Contact</span>
               </NavLink>
             </li>
           </ul>

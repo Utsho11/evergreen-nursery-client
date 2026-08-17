@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="nurseryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#81ba00" />
+      <stop offset="60%" stop-color="#70a400" />
+      <stop offset="100%" stop-color="#4d7300" />
+    </linearGradient>
+    <linearGradient id="leafFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#d9f99d" stop-opacity="0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded Base Tile -->
+  <rect width="64" height="64" rx="18" fill="url(#nurseryGrad)" />
+  
+  <!-- Botanical Leaf Specimen -->
+  <path
+    d="M30 52C20.6 52 14 45.4 14 36c0-9.4 14-18 36-22-4 22-12.6 38-20 38z"
+    fill="url(#leafFill)"
+  />
+  <path
+    d="M14 54c4-12 12-22 28-26"
+    stroke="#225400"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+  
+  <!-- Glowing Dewdrop Accent -->
+  <circle cx="48" cy="16" r="3.5" fill="#fef08a" />
+</svg>
