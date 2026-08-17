@@ -56,9 +56,10 @@ const slides = [
 
 const SliderComponent = () => {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden bg-slate-950">
       <Swiper
         effect="fade"
+        fadeEffect={{ crossFade: true }}
         speed={900}
         autoplay={{
           delay: 5000,
@@ -68,9 +69,10 @@ const SliderComponent = () => {
         className="mySwiper overflow-hidden"
         pagination={{ clickable: true }}
         navigation
+        loop={true}
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={index} className="relative w-full h-[68vh] min-h-[520px] sm:h-[78vh] sm:min-h-[600px] flex items-center">
+          <SwiperSlide key={index} className="relative w-full min-h-[520px] sm:min-h-[600px] lg:min-h-[660px] flex items-center">
             {/* Background Image with Ambient Zoom */}
             <div
               style={{

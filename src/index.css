@@ -80,16 +80,13 @@
   }
 }
 
-.mySwiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.mySwiper {
+  width: 100%;
 }
 
 .mySwiper .swiper-pagination-bullet,
 .mySwiper2 .swiper-pagination-bullet {
-  background-color: #cbd5e1;
+  background-color: rgba(255, 255, 255, 0.4);
   opacity: 1;
   width: 10px;
   height: 10px;
@@ -99,20 +96,27 @@
 .mySwiper .swiper-pagination-bullet-active,
 .mySwiper2 .swiper-pagination-bullet-active {
   background-color: #81ba00;
-  width: 24px;
+  width: 28px;
   border-radius: 6px;
 }
 
 .mySwiper .swiper-button-prev,
 .mySwiper .swiper-button-next {
   color: #81ba00;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
   transition: all 0.2s ease;
+}
+
+.dark .mySwiper .swiper-button-prev,
+.dark .mySwiper .swiper-button-next {
+  background: rgba(15, 23, 42, 0.85);
+  color: #81ba00;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mySwiper .swiper-button-prev:hover,
@@ -124,7 +128,7 @@
 
 .mySwiper .swiper-button-prev::after,
 .mySwiper .swiper-button-next::after {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: bold;
 }
 
@@ -132,12 +136,6 @@
   width: 100%;
   height: auto;
   padding-bottom: 40px;
-}
-
-.mySwiper2 .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Image Zoom Wrapper */
