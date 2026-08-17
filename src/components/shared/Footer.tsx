@@ -41,7 +41,7 @@ const Footer = () => {
           {/* Brand Col (2 cols on lg) */}
           <div className="lg:col-span-2 space-y-4">
             <NavLink to="/" className="inline-block group">
-              <Logo size="lg" />
+              <Logo size="lg" variant="dark" />
             </NavLink>
             <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed">
               Evergreen Nursery is dedicated to cultivating sustainably grown indoor & outdoor plants, providing expert care guidance, and bringing fresh serenity into modern living spaces.

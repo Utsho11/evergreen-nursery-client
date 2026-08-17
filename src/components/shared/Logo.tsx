@@ -3,12 +3,14 @@ import React from "react";
 interface LogoProps {
   size?: "sm" | "md" | "lg";
   showTagline?: boolean;
+  variant?: "auto" | "dark" | "light"; // "dark" means on a dark background (text is white)
   className?: string;
 }
 
 export const Logo: React.FC<LogoProps> = ({
   size = "md",
   showTagline = true,
+  variant = "auto",
   className = "",
 }) => {
   const iconDimensions = {
@@ -28,6 +30,20 @@ export const Logo: React.FC<LogoProps> = ({
     md: "text-[9px] sm:text-[10px] tracking-[0.22em]",
     lg: "text-[11px] tracking-[0.25em]",
   }[size];
+
+  const evergreenTextColor =
+    variant === "dark"
+      ? "text-white"
+      : variant === "light"
+      ? "text-slate-900"
+      : "text-slate-900 dark:text-slate-100";
+
+  const taglineTextColor =
+    variant === "dark"
+      ? "text-slate-300"
+      : variant === "light"
+      ? "text-slate-500"
+      : "text-slate-400 dark:text-slate-500";
 
   return (
     <div className={`flex items-center gap-2.5 sm:gap-3 select-none ${className}`}>
@@ -56,7 +72,7 @@ export const Logo: React.FC<LogoProps> = ({
       {/* Typographic Wordmark */}
       <div className="flex flex-col leading-none">
         <div className="flex items-center tracking-tight font-black">
-          <span className={`${titleClasses} text-slate-900 dark:text-slate-100 font-extrabold transition-colors`}>
+          <span className={`${titleClasses} ${evergreenTextColor} font-extrabold transition-colors`}>
             EVERGREEN
           </span>
           <span className={`${titleClasses} text-[#81ba00] font-black ml-1.5`}>
@@ -65,7 +81,7 @@ export const Logo: React.FC<LogoProps> = ({
         </div>
         {showTagline && (
           <span
-            className={`${tagClasses} font-extrabold text-slate-400 dark:text-slate-500 uppercase mt-0.5 transition-colors`}
+            className={`${tagClasses} font-extrabold ${taglineTextColor} uppercase mt-0.5 transition-colors`}
           >
             Botanical Garden
           </span>
