@@ -227,8 +227,8 @@ const ImageGallery = () => {
         </div>
       </div>
 
-      {/* True Pinterest Masonry Waterfall Columns */}
-      <div className="columns-2 sm:columns-3 lg:columns-4 gap-5 space-y-5">
+      {/* Pinterest-Styled Balanced Grid with Level Top & Bottom */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {pinsData.map((pin) => {
           const isSaved = !!savedPins[pin.id];
           const isLiked = !!likedPins[pin.id];
@@ -237,19 +237,19 @@ const ImageGallery = () => {
             <div
               key={pin.id}
               onClick={() => setSelectedPin(pin)}
-              className="break-inside-avoid group relative rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:border-[#81ba00]/50 transition-all duration-300 cursor-pointer"
+              className="group relative rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xs hover:shadow-2xl hover:border-[#81ba00]/50 transition-all duration-300 flex flex-col justify-between cursor-pointer"
             >
-              {/* Image Container with Dynamic Aspect Ratio */}
-              <div className={`relative w-full ${pin.aspectClass} overflow-hidden bg-slate-100 dark:bg-slate-800`}>
+              {/* Image Container with Consistent Ratio for Perfect Top & Bottom Level */}
+              <div className="relative w-full aspect-[4/5] overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <img
                   src={pin.src}
                   alt={pin.tag}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out"
                 />
 
                 {/* Floating Pinterest Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-between pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-between pointer-events-none">
                   {/* Top Row: Board Tag & Save Button */}
                   <div className="flex items-center justify-between pointer-events-auto">
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 truncate max-w-[120px]">
@@ -296,18 +296,18 @@ const ImageGallery = () => {
                 </div>
               </div>
 
-              {/* Pin Card Metadata Footer */}
-              <div className="p-3.5 space-y-2">
-                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2">
+              {/* Pin Card Metadata Footer with Fixed Height for Clean Baseline */}
+              <div className="p-4 space-y-2.5 flex-grow flex flex-col justify-between">
+                <h3 className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2 min-h-[32px]">
                   {pin.tag}
                 </h3>
 
-                <div className="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80">
                   <div className="flex items-center gap-2">
                     <img
                       src={pin.avatar}
                       alt={pin.author}
-                      className="w-5 h-5 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                      className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-700"
                     />
                     <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-300 truncate max-w-[100px]">
                       {pin.author}
