@@ -14,9 +14,11 @@ interface ErrorData {
   message: string;
 }
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://evergreen-nursery-server.vercel.app/api",
-  // baseUrl: "http://localhost:5000/api",
+  baseUrl: API_BASE_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
@@ -53,8 +55,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       // console.log("Sending refresh token");
 
       const res = await fetch(
-        // "http://localhost:5000/api/auth/refresh-token",
-        "https://evergreen-nursery-server.vercel.app/api/auth/refresh-token",
+        `${API_BASE_URL}/auth/refresh-token`,
         {
           method: "POST",
           credentials: "include",

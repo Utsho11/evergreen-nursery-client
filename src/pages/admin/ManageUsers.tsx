@@ -46,7 +46,7 @@ const ManageUsers = () => {
         }}
       >
         <h1 className="text-white text-4xl font-bold sm:text-5xl">
-          Transaction History
+          Manage Users
         </h1>
       </div>
       {isLoading ? (
@@ -58,7 +58,7 @@ const ManageUsers = () => {
           {users.length > 0 ? (
             <div className="border w-[20rem] sm:w-[70rem]">
               <Table className="">
-                <TableCaption>Customer Order History</TableCaption>
+                <TableCaption>Registered Users</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Image</TableHead>

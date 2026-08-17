@@ -50,7 +50,8 @@ const cartSlice = createSlice({
         availableQuantity,
       } = action.payload;
 
-      const discountPrice = quantity * (price - price * discount * 0.01);
+      const unitDiscountedPrice = price - price * (discount || 0) * 0.01;
+
       // Find existing item
       const existingItem = state.items.find(
         (item) => item.productId === productId
@@ -73,14 +74,16 @@ const cartSlice = createSlice({
           image,
           quantity,
           discount,
-          price: discountPrice,
+          price: unitDiscountedPrice,
+          availableQuantity,
         });
       }
 
-      // Recalculate total
-      state.total = state.items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
+      // Recalculate total accurately
+      state.total = Number(
+        state.items
+          .reduce((sum, item) => sum + item.price * item.quantity, 0)
+          .toFixed(2)
       );
       saveToLocalStorage(state);
     },
@@ -88,9 +91,10 @@ const cartSlice = createSlice({
       state.items = state.items.filter(
         (item) => item.productId !== action.payload
       );
-      state.total = state.items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
+      state.total = Number(
+        state.items
+          .reduce((sum, item) => sum + item.price * item.quantity, 0)
+          .toFixed(2)
       );
       saveToLocalStorage(state);
     },
@@ -108,13 +112,20 @@ const cartSlice = createSlice({
       );
 
       if (existingItem) {
+        if (
+          existingItem.availableQuantity &&
+          existingItem.quantity + quantity > existingItem.availableQuantity
+        ) {
+          return;
+        }
         // Increase quantity of existing item
         existingItem.quantity += quantity;
 
         // Recalculate total
-        state.total = state.items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
+        state.total = Number(
+          state.items
+            .reduce((sum, item) => sum + item.price * item.quantity, 0)
+            .toFixed(2)
         );
         saveToLocalStorage(state);
       }
@@ -141,9 +152,10 @@ const cartSlice = createSlice({
         }
 
         // Recalculate total
-        state.total = state.items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
+        state.total = Number(
+          state.items
+            .reduce((sum, item) => sum + item.price * item.quantity, 0)
+            .toFixed(2)
         );
         saveToLocalStorage(state);
       }

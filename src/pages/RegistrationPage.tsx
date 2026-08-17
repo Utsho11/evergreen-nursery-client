@@ -27,7 +27,10 @@ const RegistrationPage = () => {
 
   const onSubmit = async (data: FieldValues) => {
     if (!selectedFile) {
-      alert("Please select a file to upload.");
+      toast({
+        title: "Profile photo required",
+        description: "Please select an image file to upload as your profile photo.",
+      });
       return;
     }
     const formData = new FormData();
@@ -45,15 +48,17 @@ const RegistrationPage = () => {
 
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast({
-        title: "Successfully loged in.",
-        description: "Welcome to evergreen nursery",
+        title: "Registration Successful",
+        description: "Welcome to Evergreen Nursery!",
       });
 
       navigate("/");
-    } catch (error) {
+    } catch (error: unknown) {
+      const err = error as { data?: { message?: string } };
       toast({
-        title: "Error",
-        description: "Invalid email or password",
+        title: "Registration Failed",
+        description:
+          err?.data?.message || "Could not register account. Please try again.",
       });
     }
   };

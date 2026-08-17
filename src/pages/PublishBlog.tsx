@@ -36,13 +36,14 @@ const PublishBlog = () => {
         formData.append("file", selectedFile);
       }
 
-      await createBlog(formData);
+      await createBlog(formData).unwrap();
+      setSelectedFile(null);
       toast({
         title: "Success",
-        description: "Category created successfully!",
+        description: "Blog published successfully!",
       });
     } catch {
-      toast({ title: "Error", description: "Failed to create category!" });
+      toast({ title: "Error", description: "Failed to publish blog!" });
     }
   };
 
@@ -64,8 +65,8 @@ const PublishBlog = () => {
             <ENForm label="Publish" onSubmit={onsubmit} isLoading={isLoading}>
               <ENInput
                 name="title"
-                label="Blog"
-                placeholder="Enter Category Name"
+                label="Blog Title"
+                placeholder="Enter blog title"
               />
               <ENTextarea
                 rows={8}
