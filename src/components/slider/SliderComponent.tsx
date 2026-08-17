@@ -1,9 +1,8 @@
-import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Navigation, Autoplay, EffectFade } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 import slider1 from "@/assets/main-banner-1.webp";
@@ -65,9 +64,8 @@ const SliderComponent = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        modules={[Autoplay, Pagination, Navigation, EffectFade]}
+        modules={[Autoplay, Navigation, EffectFade]}
         className="mySwiper overflow-hidden"
-        pagination={{ clickable: true }}
         navigation
         loop={true}
       >
