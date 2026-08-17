@@ -1,99 +1,133 @@
-import { MapPin, Phone, Mail, User } from "lucide-react";
+import { Sparkles, Leaf, ShieldCheck, Award } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const AboutUs = () => {
+  const stats = [
+    { number: "10,000+", label: "Happy Gardeners" },
+    { number: "500+", label: "Plant Varieties" },
+    { number: "100%", label: "Organic Soil Mix" },
+    { number: "99.8%", label: "Safe Delivery Rate" },
+  ];
+
+  const values = [
+    {
+      icon: <Leaf className="text-[#81ba00]" size={28} />,
+      title: "Eco-Friendly Cultivation",
+      description:
+        "Every sprout and sapling is nurtured without synthetic pesticides, respecting the natural biological balance of soil.",
+    },
+    {
+      icon: <ShieldCheck className="text-[#81ba00]" size={28} />,
+      title: "30-Day Plant Guarantee",
+      description:
+        "We stand by the health of our botanical collection. If your plant struggles within 30 days, we'll replace it for free.",
+    },
+    {
+      icon: <Award className="text-[#81ba00]" size={28} />,
+      title: "Expert Horticulturists",
+      description:
+        "Our team brings decades of botanical care experience to help you choose the ideal plants for your unique lighting and lifestyle.",
+    },
+  ];
+
+  const team = [
+    { name: "Elena Ramos", role: "Head Botanist", emoji: "🌿" },
+    { name: "Marcus Chen", role: "Nursery Operations", emoji: "🪴" },
+    { name: "Sarah Jenkins", role: "Soil Health Expert", emoji: "🌱" },
+    { name: "David Kim", role: "Customer Plant Doctor", emoji: "🩺" },
+  ];
+
   return (
-    <div className="bg-gradient-to-b from-green-50 to-white py-10 px-4 sm:px-6 lg:px-8">
-      {/* Header Section */}
-      <header className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-green-700">About Us</h1>
-        <p className="text-lg text-gray-600 mt-4">
-          Discover the story behind Evergreen Nursery — where passion for nature
-          thrives!
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 space-y-16">
+      {/* Hero Section */}
+      <div className="text-center max-w-3xl mx-auto space-y-4">
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#81ba00]/15 text-[#81ba00] text-xs font-bold uppercase tracking-wider">
+          <Sparkles size={13} />
+          Our Botanical Journey
+        </span>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
+          Bringing Nature's Calm to Every Home
+        </h1>
+        <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
+          Founded on a love for green sanctuaries, Evergreen Nursery has grown into a community of passionate plant parents, delivering hand-nurtured botanical life right to your doorstep.
         </p>
-      </header>
+      </div>
 
-      {/* Mission and Vision Section */}
-      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        <div>
-          <h2 className="text-3xl font-semibold text-green-800">Our Mission</h2>
-          <p className="text-gray-600 mt-4 leading-relaxed">
-            At Evergreen Nursery, our mission is to bring the beauty of nature
-            closer to every home. We are dedicated to providing the highest
-            quality plants, gardening essentials, and expert guidance to help
-            our customers create lush, green spaces that inspire.
-          </p>
-        </div>
-        <div>
-          <h2 className="text-3xl font-semibold text-green-800">Our Vision</h2>
-          <p className="text-gray-600 mt-4 leading-relaxed">
-            We envision a world where greenery thrives in every corner —
-            enhancing the environment, improving air quality, and uplifting the
-            spirit of communities. We aim to be the go-to destination for all
-            plant enthusiasts and eco-conscious individuals.
-          </p>
-        </div>
-      </section>
+      {/* Stats Counter Bar */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        {stats.map((stat, idx) => (
+          <div
+            key={idx}
+            className="p-6 rounded-3xl bg-white border border-slate-100 shadow-xs text-center space-y-1"
+          >
+            <p className="text-2xl sm:text-4xl font-extrabold text-[#81ba00]">{stat.number}</p>
+            <p className="text-xs sm:text-sm font-semibold text-slate-600">{stat.label}</p>
+          </div>
+        ))}
+      </div>
 
-      {/* Team Section */}
-      <section className="bg-white py-12 shadow-sm">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-green-700 mb-6">
-            Meet Our Team
+      {/* Mission & Values Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {values.map((v, idx) => (
+          <div
+            key={idx}
+            className="botanical-card p-6 sm:p-8 space-y-4 bg-white"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-[#81ba00]/10 flex items-center justify-center">
+              {v.icon}
+            </div>
+            <h3 className="text-lg font-bold text-slate-800">{v.title}</h3>
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{v.description}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Team Showcase */}
+      <div className="text-center space-y-8 max-w-5xl mx-auto">
+        <div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
+            Meet the Plant Specialists
           </h2>
-          <p className="text-gray-600 mb-10">
-            Our team of passionate plant lovers and experts is here to guide and
-            support you on your gardening journey.
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            The passionate hands behind our thriving greenhouses
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-            {["Alice", "Bob", "Charlie", "Diana"].map((member, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-center space-y-4"
-              >
-                <div className="w-24 h-24 bg-green-200 rounded-full flex items-center justify-center">
-                  <User size={40} className="text-green-700" />
-                </div>
-                <h3 className="text-lg font-semibold text-green-800">
-                  {member}
-                </h3>
-                <p className="text-sm text-gray-500">Plant Specialist</p>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
 
-      {/* Contact Section */}
-      <section className="max-w-5xl mx-auto mt-16">
-        <h2 className="text-4xl font-bold text-green-700 text-center mb-8">
-          Contact Us
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex items-center space-x-4">
-            <MapPin size={24} className="text-green-700" />
-            <div>
-              <h3 className="text-lg font-semibold text-green-800">Location</h3>
-              <p className="text-gray-600">
-                123 Green St, Plant City, Natureland
-              </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {team.map((member, idx) => (
+            <div
+              key={idx}
+              className="p-6 rounded-3xl bg-white border border-slate-100 shadow-xs text-center space-y-3 hover:border-[#81ba00]/30 transition-all"
+            >
+              <div className="w-16 h-16 rounded-full bg-emerald-50 text-2xl flex items-center justify-center mx-auto shadow-inner">
+                {member.emoji}
+              </div>
+              <div>
+                <h3 className="text-sm sm:text-base font-bold text-slate-800">{member.name}</h3>
+                <p className="text-xs text-slate-400 font-medium">{member.role}</p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Phone size={24} className="text-green-700" />
-            <div>
-              <h3 className="text-lg font-semibold text-green-800">Call Us</h3>
-              <p className="text-gray-600">+1 234 567 890</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Mail size={24} className="text-green-700" />
-            <div>
-              <h3 className="text-lg font-semibold text-green-800">Email Us</h3>
-              <p className="text-gray-600">contact@evergreennursery.com</p>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
+
+      {/* CTA Box */}
+      <div className="rounded-3xl bg-gradient-to-r from-emerald-900 to-emerald-950 text-white p-8 sm:p-12 text-center max-w-4xl mx-auto space-y-4 shadow-xl">
+        <h2 className="text-2xl sm:text-3xl font-extrabold">
+          Ready to Add Fresh Greenery to Your Room?
+        </h2>
+        <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto">
+          Explore hundreds of resilient indoor plants, rare succulents, and organic nursery supplies.
+        </p>
+        <div className="pt-2">
+          <NavLink to="/shop">
+            <Button className="bg-[#81ba00] hover:bg-[#72a500] text-white rounded-full px-8 py-5 text-xs font-bold shadow-md">
+              Browse Plant Collection
+            </Button>
+          </NavLink>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,11 +1,13 @@
 import { TCategory } from "@/types";
-import { NavLink } from "react-router-dom";
+import { ArrowDownAZ, ArrowUp10, ArrowDown10, Layers, RotateCcw, Sparkles } from "lucide-react";
 
 interface ShopSideBarProps {
   categories: TCategory[];
   onCategoryChange: (category: string | null) => void;
   onSortChange: (sortOrder: string | null) => void;
   selectedCategory: string | null;
+  selectedSort: string | null;
+  onReset: () => void;
 }
 
 const ShopSideBar: React.FC<ShopSideBarProps> = ({
@@ -13,61 +15,114 @@ const ShopSideBar: React.FC<ShopSideBarProps> = ({
   onSortChange,
   categories,
   selectedCategory,
+  selectedSort,
+  onReset,
 }) => {
+  const hasActiveFilters = selectedCategory !== null || selectedSort !== null;
+
   return (
-    <div className="rounded-xl border-2 border-slate-600 sticky top-52">
-      <div>
-        <h1 className="font-semibold p-2 border-b-2 border-slate-600">
-          Sort By Price
-        </h1>
-        <div className="mt-5 space-y-2 p-4">
-          <label className="block mb-2 text-sm">
-            <input
-              type="radio"
-              name="sortOrder"
-              value="asc"
-              className="form-checkbox custom-checkbox h-4 w-4 text-[#81ba00]"
-              onChange={() => onSortChange("asc")}
-            />
-            <span className="ml-2 hover:text-[#81ba00]">Low to High</span>
-          </label>
-          <label className="block mb-2 text-sm">
-            <input
-              type="radio"
-              name="sortOrder"
-              value="desc"
-              className="form-checkbox h-4 w-4"
-              onChange={() => onSortChange("desc")}
-            />
-            <span className="ml-2 hover:text-[#81ba00]">High to Low</span>
-          </label>
-        </div>
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-6 sticky top-24">
+      {/* Sidebar Header & Reset */}
+      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 className="text-base font-bold text-slate-800 flex items-center gap-2">
+          <Layers size={18} className="text-[#81ba00]" />
+          <span>Filters</span>
+        </h2>
+        {hasActiveFilters && (
+          <button
+            onClick={onReset}
+            className="text-xs font-semibold text-rose-500 hover:text-rose-600 flex items-center gap-1 transition-colors"
+          >
+            <RotateCcw size={12} />
+            <span>Reset</span>
+          </button>
+        )}
       </div>
-      <div className="mt-5">
-        <h1 className="font-semibold border-y-2 border-slate-600 p-2">
-          Filter By Category
-        </h1>
-        <ul className="grid my-5 font-medium text-sm space-y-3 p-4">
-          <li
-            onClick={() => onCategoryChange(null)}
-            className={`hover:text-[#81ba00] ${
-              selectedCategory === null ? "text-[#81BA00]" : ""
+
+      {/* Sort By Price */}
+      <div className="space-y-3">
+        <h3 className="text-xs uppercase font-bold tracking-wider text-slate-400">
+          Sort Products
+        </h3>
+        <div className="space-y-1.5">
+          <button
+            onClick={() => onSortChange(null)}
+            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-all ${
+              selectedSort === null
+                ? "bg-[#81ba00] text-white shadow-xs"
+                : "text-slate-600 hover:bg-slate-50"
             }`}
           >
-            <NavLink to="/shop">Default</NavLink>
-          </li>
-          {categories?.map((item, index) => (
-            <li
-              key={index}
-              className={`hover:text-[#81ba00] ${
-                selectedCategory === item._id ? "text-[#81BA00]" : ""
-              }`}
+            <span className="flex items-center gap-2">
+              <ArrowDownAZ size={14} />
+              Featured / Default
+            </span>
+          </button>
+
+          <button
+            onClick={() => onSortChange("asc")}
+            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-all ${
+              selectedSort === "asc"
+                ? "bg-[#81ba00] text-white shadow-xs"
+                : "text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <ArrowUp10 size={14} />
+              Price: Low to High
+            </span>
+          </button>
+
+          <button
+            onClick={() => onSortChange("desc")}
+            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-all ${
+              selectedSort === "desc"
+                ? "bg-[#81ba00] text-white shadow-xs"
+                : "text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <ArrowDown10 size={14} />
+              Price: High to Low
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* Filter By Category */}
+      <div className="space-y-3 pt-3 border-t border-slate-100">
+        <h3 className="text-xs uppercase font-bold tracking-wider text-slate-400">
+          Categories
+        </h3>
+        <div className="space-y-1 max-h-[320px] overflow-y-auto pr-1">
+          <button
+            onClick={() => onCategoryChange(null)}
+            className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-all ${
+              selectedCategory === null
+                ? "bg-[#81ba00]/15 text-[#81ba00] font-bold"
+                : "text-slate-600 hover:bg-slate-50"
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <Sparkles size={13} />
+              All Categories
+            </span>
+          </button>
+
+          {categories?.map((item) => (
+            <button
+              key={item._id}
               onClick={() => onCategoryChange(item._id)}
+              className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-all ${
+                selectedCategory === item._id || selectedCategory === item.name
+                  ? "bg-[#81ba00]/15 text-[#81ba00] font-bold"
+                  : "text-slate-600 hover:bg-slate-50"
+              }`}
             >
-              <NavLink to={`category/${item.name}`}>{item.name}</NavLink>
-            </li>
+              <span className="capitalize text-left truncate">{item.name}</span>
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

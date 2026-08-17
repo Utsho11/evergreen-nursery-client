@@ -2,45 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-/* index.css or App.css */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 83 100% 36%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --border: 214.3 31.8% 91.4%;
+    --radius: 0.75rem;
+  }
+
+  body {
+    @apply bg-[#FAFAF8] text-slate-800 antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c3d9b5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #81ba00;
+}
+
+/* Modern Navigation Link */
 .navlink {
-  font-weight: 700;
+  font-weight: 600;
   position: relative;
-  display: flex;
-  color: inherit; /* Use the inherited color */
-  transition: color 0.3s ease-out; /* Smooth transition for color */
-}
-
-.navlink::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px; /* Adjust this to position the underline */
-  width: 100%;
-  height: 2px; /* Adjust this to change the underline thickness */
-  background: #81ba00; /* Use the custom green color */
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease-out;
-}
-
-.navlink:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #334155;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
 }
 
 .navlink:hover {
-  color: #81ba00; /* Change text color on hover */
+  color: #81ba00;
+  background-color: rgba(129, 186, 0, 0.08);
 }
 
+.navlink.active {
+  color: #81ba00;
+  font-weight: 700;
+}
+
+/* Swiper Styles */
 .mySwiper {
   width: 100%;
-  height: 50vh; /* Adjust height for responsiveness */
+  height: 55vh;
 }
 
 @media (min-width: 640px) {
   .mySwiper {
-    height: 70vh; /* Increase height on medium screens */
+    height: 75vh;
   }
 }
 
@@ -51,22 +83,51 @@
   text-align: center;
 }
 
-.mySwiper .swiper-pagination-bullet {
-  background-color: #81ba00;
+.mySwiper .swiper-pagination-bullet,
+.mySwiper2 .swiper-pagination-bullet {
+  background-color: #cbd5e1;
+  opacity: 1;
+  width: 10px;
+  height: 10px;
+  transition: all 0.3s ease;
 }
 
-.mySwiper .swiper-pagination-bullet-active {
+.mySwiper .swiper-pagination-bullet-active,
+.mySwiper2 .swiper-pagination-bullet-active {
   background-color: #81ba00;
+  width: 24px;
+  border-radius: 6px;
 }
 
 .mySwiper .swiper-button-prev,
 .mySwiper .swiper-button-next {
   color: #81ba00;
+  background: rgba(255, 255, 255, 0.85);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
 }
+
+.mySwiper .swiper-button-prev:hover,
+.mySwiper .swiper-button-next:hover {
+  background: #81ba00;
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.mySwiper .swiper-button-prev::after,
+.mySwiper .swiper-button-next::after {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
 .mySwiper2 {
   width: 100%;
-  height: auto; /* Adjust height to content */
-  padding-bottom: 40px; /* Ensure pagination bullets are visible */
+  height: auto;
+  padding-bottom: 40px;
 }
 
 .mySwiper2 .swiper-slide {
@@ -75,44 +136,42 @@
   align-items: center;
 }
 
-.mySwiper2 .swiper-pagination-bullet {
-  background-color: #adadad;
-}
-
-.mySwiper2 .swiper-pagination-bullet-active {
-  background-color: #81ba00;
-}
-
+/* Image Zoom Wrapper */
 .wrapper {
   width: 100%;
-  /* height: 100%; */
   overflow: hidden;
-  border-radius: 5px; /* Optional for rounded corners */
+  border-radius: 0.75rem;
 }
 
 .wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 2s ease;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wrapper:hover img {
-  transform: scale(1.1);
+  transform: scale(1.06);
 }
 
-.subbanner-description {
-  position: absolute;
-  top: 66px;
-  right: 37px;
-  text-align: left;
+/* Glassmorphism & Shadow Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-.custom-checkbox {
-  background-color: #81ba00;
-  border-color: #81ba00;
+.botanical-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid #f1f5f1;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.custom-checkbox:checked {
-  background-color: #81ba00;
-  border-color: #81ba00;
+
+.botanical-card:hover {
+  border-color: #dcfce7;
+  box-shadow: 0 12px 30px -4px rgba(129, 186, 0, 0.12);
+  transform: translateY(-3px);
 }

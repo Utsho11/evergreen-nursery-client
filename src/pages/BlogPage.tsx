@@ -1,82 +1,104 @@
 import { useGetAllBlogsQuery } from "@/redux/services/adminApi";
-import Lottie from "react-lottie";
-import animationData from "@/assets/loader/Animation - 1721054166339.json";
 import { NavLink } from "react-router-dom";
+import { ArrowRight, BookOpen, Calendar, Sparkles } from "lucide-react";
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
 const BlogPage = () => {
   const { data, isLoading } = useGetAllBlogsQuery(null);
-
   const blogs = data?.data || [];
 
   return (
-    <div className="my-32 container mx-auto">
-      <div className="text-center mx-auto px-4 sm:px-8 md:px-16 lg:px-32">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium pb-8 sm:pb-12">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+      {/* Header Hero */}
+      <div className="text-center max-w-3xl mx-auto space-y-4">
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#81ba00]/15 text-[#81ba00] text-xs font-bold uppercase tracking-wider">
+          <Sparkles size={13} />
+          Botanical Journal & Guides
+        </span>
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-800 tracking-tight">
           Plants Make Life Better
         </h1>
-        <p className="text-gray-600 text-sm sm:text-base leading-relaxed pb-6 sm:pb-8 md:pb-12">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. Software like Aldus
-          PageMaker, including versions of Lorem Ipsum, has used it to make a
-          type specimen book.
+        <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
+          Expert gardening tips, indoor plant care routines, propagation guides, and botanical inspiration written by our nursery horticulturists.
         </p>
       </div>
-      <div className="">
-        {isLoading ? (
-          <div className="flex justify-center items-center my-32">
-            <Lottie options={defaultOptions} height={400} width={400} />
-          </div>
-        ) : (
-          <div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-              {blogs.map((blog, index) => (
-                <div key={index}>
-                  <div className="bg-white shadow-md space-y-4 pb-4">
-                    <div className="wrapper h-[30vh]">
-                      <img src={blog.image} alt={blog.title} />
-                    </div>
-                    <div className="px-4 space-y-2">
-                      <h2 className="text-xl font-serif text-[#81BA00]">
-                        {new Date(blog.createdAt ?? 0).toLocaleDateString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          }
-                        )}
-                      </h2>
-                      <h2 className="text-xl font-medium">{blog.title}</h2>
-                      <p className="text-[#767676] text-sm">
-                        {blog.blog.length > 120
-                          ? blog.blog.slice(0, 120) + "..."
-                          : blog.blog}
-                      </p>
-                    </div>
-                    <div className="px-4">
-                      <NavLink to={`/blog/${blog._id}`}>
-                        <button className="bg-[#81BA00] rounded-full p-2 text-white">
-                          Read Blog
-                        </button>
-                      </NavLink>
-                    </div>
-                  </div>
-                </div>
-              ))}
+
+      {/* Blog Cards Grid */}
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(6)].map((_, idx) => (
+            <div key={idx} className="botanical-card p-4 space-y-3 animate-pulse">
+              <div className="h-48 bg-slate-200 rounded-2xl w-full" />
+              <div className="h-4 bg-slate-200 rounded-md w-1/3" />
+              <div className="h-6 bg-slate-200 rounded-md w-3/4" />
+              <div className="h-12 bg-slate-200 rounded-md w-full" />
             </div>
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : blogs.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogs.map((blog) => (
+            <article
+              key={blog._id}
+              className="botanical-card flex flex-col justify-between overflow-hidden group hover:shadow-xl transition-all duration-300"
+            >
+              {/* Featured Image */}
+              <div className="relative h-56 sm:h-64 overflow-hidden rounded-t-2xl bg-slate-100">
+                <NavLink to={`/blog/${blog._id}`}>
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </NavLink>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-bold text-slate-700 shadow-xs flex items-center gap-1.5">
+                  <Calendar size={12} className="text-[#81ba00]" />
+                  <span>
+                    {new Date(blog.createdAt ?? 0).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-6 flex flex-col flex-grow justify-between space-y-4">
+                <div className="space-y-2">
+                  <NavLink to={`/blog/${blog._id}`}>
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-800 hover:text-[#81ba00] transition-colors line-clamp-2">
+                      {blog.title}
+                    </h2>
+                  </NavLink>
+                  <p className="text-xs sm:text-sm text-slate-500 line-clamp-3 leading-relaxed">
+                    {blog.blog}
+                  </p>
+                </div>
+
+                {/* Read Action */}
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+                    <BookOpen size={13} /> 3 min read
+                  </span>
+                  <NavLink
+                    to={`/blog/${blog._id}`}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#81ba00] hover:text-[#6a9900] group/btn"
+                  >
+                    <span>Read Article</span>
+                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </NavLink>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="p-16 text-center rounded-3xl bg-white border border-slate-100 shadow-xs space-y-4">
+          <BookOpen size={36} className="text-[#81ba00] mx-auto" />
+          <h2 className="text-2xl font-bold text-slate-800">No Articles Yet</h2>
+          <p className="text-sm text-slate-500">Check back soon for fresh plant guides and nursery tips!</p>
+        </div>
+      )}
     </div>
   );
 };
